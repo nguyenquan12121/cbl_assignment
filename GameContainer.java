@@ -1,6 +1,8 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -18,9 +20,7 @@ import javax.swing.JPanel;
 
 
 public class GameContainer {
-    private static BufferedImage ballImage;
     private static BufferedImage scaledImage;
-    private static Ball ball;
     public static void addComponentsToPane(JFrame frame) {
 
         JPanel buttonPanel=new JPanel();//create panel to hold button
@@ -33,17 +33,7 @@ public class GameContainer {
         buttonPanel.setBackground(Color.red);
         //add line to the pane
         DrawingLine line1 = new DrawingLine();
-        try{
-         ballImage = ImageIO.read(new File("/home/quan/shared_folder/Programming/tu_eindhoven/testing/images/1200px-Soccerball.svg.png"));
-         scaledImage = new BufferedImage(100, 100, BufferedImage.TYPE_INT_ARGB);
-         Graphics2D g2d = scaledImage.createGraphics();
-         g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-         g2d.drawImage(ballImage, 0, 0, 100, 100, null);
-         g2d.dispose();         
-        }
-        catch(IOException e){
-            e.printStackTrace();
-        }
+        scaledImage = BallLabel.drawBall();
         JLabel picLabel = new JLabel(new ImageIcon(scaledImage));
         line1.setBackground(Color.orange);
         line1.add(picLabel);
@@ -56,7 +46,7 @@ public class GameContainer {
         //Create and set up the window.
         JFrame frame = new JFrame("Frame");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+        frame.setPreferredSize(new Dimension(1280, 720));
         //Set up content pane
         addComponentsToPane(frame);
 

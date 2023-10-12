@@ -22,8 +22,8 @@ class DrawingLine extends JPanel {
     }
 
 
-    @Override
-    public Dimension getPreferredSize() {
-        return new Dimension(1080, 720);
-    }
+    // @Override
+    // public Dimension getPreferredSize() {
+    //     return new Dimension(1080, 720);
+    // }
 }
