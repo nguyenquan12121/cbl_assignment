@@ -32,11 +32,8 @@ public class GameContainer {
         frame.add(buttonPanel, BorderLayout.EAST);//use contentPane default BorderLayout
         buttonPanel.setBackground(Color.red);
         //add line to the pane
-        DrawingLine line1 = new DrawingLine();
-        scaledImage = BallLabel.drawBall();
-        JLabel picLabel = new JLabel(new ImageIcon(scaledImage));
+        PlayPanel line1 = new PlayPanel();
         line1.setBackground(Color.orange);
-        line1.add(picLabel);
         frame.add(line1);
 
     }
