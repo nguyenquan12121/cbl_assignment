@@ -32,9 +32,9 @@ public class GameContainer {
         frame.add(buttonPanel, BorderLayout.EAST);//use contentPane default BorderLayout
         buttonPanel.setBackground(Color.red);
         //add line to the pane
-        PlayPanel line1 = new PlayPanel();
-        line1.setBackground(Color.orange);
-        frame.add(line1);
+        PlayPanel pp = new PlayPanel();
+        pp.setBackground(Color.orange);
+        frame.add(pp);
 
     }
 
