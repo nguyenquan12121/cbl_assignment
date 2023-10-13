@@ -26,7 +26,6 @@ class PlayPanel extends JPanel implements ActionListener {
     Timer timer; 
     public PlayPanel(){
         timer = new Timer(10,this);
-        timer.start();
         String filePath = "images/1200px-Soccerball.svg.png";
         try{
             File imageFile = new File(filePath);
@@ -34,6 +33,14 @@ class PlayPanel extends JPanel implements ActionListener {
         }
         catch(IOException e){
             e.printStackTrace();
+        }
+    }
+    public void setTimer(boolean status){
+        if (status){
+            timer.start();
+        }
+        else{
+            timer.stop();
         }
     }
     @Override

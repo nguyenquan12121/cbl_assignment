@@ -8,11 +8,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -20,7 +17,6 @@ import javax.swing.JPanel;
 
 
 public class GameContainer {
-    private static BufferedImage scaledImage;
     public static void addComponentsToPane(JFrame frame) {
 
         JPanel buttonPanel=new JPanel();//create panel to hold button
@@ -33,6 +29,8 @@ public class GameContainer {
         buttonPanel.setBackground(Color.red);
         //add line to the pane
         PlayPanel pp = new PlayPanel();
+        b3.addActionListener(e -> pp.setTimer(true));
+        stop.addActionListener(e -> pp.setTimer(false));
         pp.setBackground(Color.orange);
         frame.add(pp);
 
