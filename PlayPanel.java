@@ -1,4 +1,5 @@
 import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
@@ -13,19 +14,19 @@ import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-//Never let an AI write human code
 class PlayPanel extends JPanel implements ActionListener {
     private static BufferedImage ballImage;
     private static int ballX = 650;
-    private static int ballY = 100;
+    private static int ballY = 500;
+    private boolean initiated = false;
     //0 pixel/ms 
-    double speedY = 0;
+    double speedY=5;
     // 0.07 pixel/ms^2
     double accelerate = 0.07;
     double deaccelerate = -0.07;
     Timer timer; 
     public PlayPanel(){
-        timer = new Timer(10,this);
+        timer = new Timer(5,this);
         String filePath = "images/1200px-Soccerball.svg.png";
         try{
             File imageFile = new File(filePath);
@@ -34,10 +35,13 @@ class PlayPanel extends JPanel implements ActionListener {
         catch(IOException e){
             e.printStackTrace();
         }
+        this.setBackground(Color.orange);
     }
-    public void setTimer(boolean status){
+    public void setTimer(boolean status, long duration){
         if (status){
             timer.start();
+            initiated = true;
+            speedY = duration/1000;
         }
         else{
             timer.stop();
@@ -59,13 +63,17 @@ class PlayPanel extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e){
-        //Ball falling towards the ground
-            speedY +=accelerate;
-            ballY+=speedY;
-        //Ball bouncing off the (a very bouncy) ground
-        if (ballY>=500){
-            speedY*=-1;
-        }
+            speedY +=deaccelerate;
+            //System.out.println(ballY + " " + speedY);
+            ballY-=speedY;
+            if (initiated && ballY > 500){
+                //Ball sinks to the ground so i just stop the animation at this point
+                if (Math.abs(speedY)<0.799 || ballY > 510){
+                    timer.stop();
+                }
+                speedY+=1.3;
+                speedY*=-1;
+            }
 
         repaint();
     }
