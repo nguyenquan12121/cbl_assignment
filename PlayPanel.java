@@ -46,7 +46,15 @@ class PlayPanel extends JPanel implements ActionListener {
         }
         else{
             timer.stop();
+            initiated = false;
         }
+    }
+
+    public void reset(){
+        ballY = 500;
+        initiated = false;
+        timer.stop();
+        repaint();
     }
     @Override
     public void paintComponent(Graphics g) {
@@ -72,6 +80,7 @@ class PlayPanel extends JPanel implements ActionListener {
                 //Ball sinks to the ground so i just stop the animation at this point
                 if (Math.abs(speedY)<0.799 || ballY > 510){
                     timer.stop();
+                    initiated = false;
                 }
                 speedY+=1.3;
                 speedY*=-1;

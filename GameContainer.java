@@ -16,6 +16,7 @@ public class GameContainer {
         PlayPanel pp = new PlayPanel();
         //Allow buttons inside the menu panel to interact with the play panel
         mainButtonPanel.startAnimation(pp);
+        mainButtonPanel.reset(pp);
         frame.add(pp);
 
     }

@@ -1,6 +1,7 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
@@ -14,9 +15,11 @@ class MenuPanel extends JPanel implements ActionListener {
     Timer timer; 
     JButton bounce;
     JButton stop; 
+    JButton reset;
     JLabel force;
     long startTime = -1l;
     long endTime = -1l;
+    private GridLayout gl;
     public MenuPanel(){
         timer = new Timer(10, this);
         timer.start();
@@ -26,8 +29,10 @@ class MenuPanel extends JPanel implements ActionListener {
         //add button to the pane
         bounce = new JButton("Bounce!");
         stop = new JButton("Stop!");
+        reset = new JButton("Reset!");
         buttonPanel.add(bounce);
         buttonPanel.add(stop);
+        buttonPanel.add(reset);
         buttonPanel.setBackground(Color.red);
 
 
@@ -62,6 +67,7 @@ class MenuPanel extends JPanel implements ActionListener {
                 @Override
                 public void mousePressed(java.awt.event.MouseEvent arg0) {
                     startTime = System.currentTimeMillis();
+                    timer.start();
                 }
 
                 @Override
@@ -75,6 +81,17 @@ class MenuPanel extends JPanel implements ActionListener {
 
         );
         this.stop.addActionListener(e -> pp.setTimer(false, 0l));
+    }
+
+    public void reset(PlayPanel pp){
+        this.reset.addActionListener( e ->{
+            startTime = -1l;
+            endTime = -1l;           
+            force.setText("0.00");
+            timer.stop();
+            pp.reset();
+        }
+        );
     }
 
     @Override
