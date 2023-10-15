@@ -2,6 +2,7 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Line2D;
@@ -26,7 +27,7 @@ class PlayPanel extends JPanel implements ActionListener {
     double deaccelerate = -0.07;
     Timer timer; 
     public PlayPanel(){
-        timer = new Timer(5,this);
+        timer = new Timer(10,this);
         String filePath = "images/1200px-Soccerball.svg.png";
         try{
             File imageFile = new File(filePath);
@@ -59,6 +60,7 @@ class PlayPanel extends JPanel implements ActionListener {
         g2d.draw(lineOne);
         g2d.draw(lineTwo);
         g2d.draw(ground);
+        Toolkit.getDefaultToolkit().sync();
     }
 
     @Override
