@@ -60,7 +60,16 @@ class PlayPanel extends JPanel implements ActionListener {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
+        drawBaw(g2d);
+        drawLines(g2d);
+    }
+
+    public void drawBaw(Graphics2D g2d){
         g2d.drawImage(ballImage, ballX, ballY, 100, 100, null);
+        Toolkit.getDefaultToolkit().sync();
+    }
+
+    public void drawLines(Graphics2D g2d){
         g2d.setStroke(new BasicStroke(10));
         Line2D lineOne = new Line2D.Double(750, 150, 750, 600);
         Line2D lineTwo = new Line2D.Double(650, 150, 650, 600);
@@ -69,8 +78,8 @@ class PlayPanel extends JPanel implements ActionListener {
         g2d.draw(lineTwo);
         g2d.draw(ground);
         Toolkit.getDefaultToolkit().sync();
-    }
 
+    }
     @Override
     public void actionPerformed(ActionEvent e){
             speedY +=deaccelerate;
