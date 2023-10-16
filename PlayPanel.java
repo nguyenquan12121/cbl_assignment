@@ -13,21 +13,20 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
-import javax.swing.Timer;
 
-class PlayPanel extends JPanel implements ActionListener {
+class PlayPanel extends JPanel implements Runnable {
     private static BufferedImage ballImage;
     private static int ballX = 650;
     private static int ballY = 500;
-    private boolean initiated = false;
+    private static final int DELAY = 10;
+    private static boolean initiated = false;
     //0 pixel/ms 
     double speedY=5;
     // 0.07 pixel/ms^2
     double accelerate = 0.07;
     double deaccelerate = -0.07;
-    Timer timer; 
+    Thread animator;
     public PlayPanel(){
-        timer = new Timer(10,this);
         String filePath = "images/1200px-Soccerball.svg.png";
         try{
             File imageFile = new File(filePath);
@@ -40,20 +39,21 @@ class PlayPanel extends JPanel implements ActionListener {
     }
     public void setTimer(boolean status, long duration){
         if (status){
-            timer.start();
             initiated = true;
-            speedY = duration/1000;
+            startAnimation();
+            speedY = duration/500;
         }
         else{
-            timer.stop();
             initiated = false;
+            animator.interrupt();
         }
+        System.out.println(initiated);
     }
 
     public void reset(){
         ballY = 500;
         initiated = false;
-        timer.stop();
+        animator.interrupt();
         repaint();
     }
     @Override
@@ -80,21 +80,51 @@ class PlayPanel extends JPanel implements ActionListener {
         Toolkit.getDefaultToolkit().sync();
 
     }
+
+    public void startAnimation() {
+        animator = new Thread(this);
+        animator.start();
+    }
+
+    public void cycle(){
+        speedY +=deaccelerate;
+        System.out.println(ballY + " " + speedY);
+        ballY-=speedY;
+        if (ballY > 500){
+            //Ball sinks to the ground so i just stop the animation at this point
+            if (Math.abs(speedY)<0.78 || ballY > 508){
+                reset();
+            }
+            speedY+=1.3;
+            speedY*=-1;
+        }
+    }
+
     @Override
-    public void actionPerformed(ActionEvent e){
-            speedY +=deaccelerate;
-            //System.out.println(ballY + " " + speedY);
-            ballY-=speedY;
-            if (initiated && ballY > 500){
-                //Ball sinks to the ground so i just stop the animation at this point
-                if (Math.abs(speedY)<0.799 || ballY > 510){
-                    timer.stop();
-                    initiated = false;
-                }
-                speedY+=1.3;
-                speedY*=-1;
+    public void run(){
+        long beforeTime, timeDiff, sleep;
+
+        beforeTime = System.currentTimeMillis();
+
+        while (initiated) {
+            cycle();
+            repaint();
+            timeDiff = System.currentTimeMillis() - beforeTime;
+            sleep = DELAY - timeDiff;
+
+            if (sleep < 0) {
+                sleep = 2;
+            }
+            try {
+                //Ensure that every repaint() call is exactly 10ms apart
+                Thread.sleep(sleep);
+            } catch (InterruptedException e) {
+                initiated = false;
             }
 
-        repaint();
+            beforeTime = System.currentTimeMillis();
+
     }
+
+}
 }
