@@ -1,0 +1,66 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+public class ButtonHoldTimer extends JFrame {
+
+    private JButton button;
+    private long pressTime;
+    private long releaseTime;
+    public double startX=0;
+    public double acceleration=9.8;
+    public double distance;
+    public double multiplier=5;
+
+public changeStart(double a){
+    this.startX=a;
+}
+
+public void changemultiplier(double a){
+        this.multiplier=a;
+    }
+
+    public void changeAcceleration(double a){
+        this.acceleration=-a;
+    }
+
+    public ButtonHoldTimer() {
+        setTitle("Button Hold Timer");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(300, 100);
+        setLayout(new FlowLayout());
+
+        button = new JButton("Hold Me");
+        button.addMouseListener(new HoldMouseListener());
+
+        add(button);
+
+        setVisible(true);
+    }
+
+    public class HoldMouseListener extends MouseAdapter {
+        @Override// limit this only on when the ball is down
+        public void mousePressed(MouseEvent e) {
+            pressTime = System.currentTimeMillis();
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+            releaseTime = System.currentTimeMillis();
+            long holdTime = (releaseTime - pressTime)/100;//in  ms
+            System.out.println(holdTime);
+            	distance=startX+acceleration*(holdTime*multiplier);
+                System.out.println("distance is "+ distance);
+            
+        }
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> new ButtonHoldTimer());
+    }
+}
