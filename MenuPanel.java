@@ -32,6 +32,7 @@ class MenuPanel extends JPanel implements ActionListener {
         buttonPanel.add(bounce);
         buttonPanel.add(stop);
         buttonPanel.add(reset);
+        buttonPanel.add(next);
         buttonPanel.setBackground(Color.red);
         buttonPanel.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 

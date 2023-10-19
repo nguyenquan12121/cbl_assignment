@@ -102,11 +102,12 @@ class PlayPanel extends JPanel implements Runnable {
         ballY-=speedY;
         if (ballY > 496){
             //Ball sinks to the ground so i just stop the animation at this point
-            if (Math.abs(speedY)<0.7 || ballY > 500){
+            if (Math.abs(speedY)<0.7 || ballY > 505){
                 reset();
                 System.out.println("STOPPED!");
             }
-            speedY+=(1.3-bounces*accelerate);
+            // speedY+=(1.3-bounces*accelerate);
+            speedY+=(1.3);
             bounces++;
             speedY*=-1;
         }

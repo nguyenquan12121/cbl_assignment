@@ -23,6 +23,7 @@ public class MenuContainer {
         buttonPanel.add(exit);
         buttonPanel.setBackground(Color.red);
         play.addActionListener(e ->{
+            frame.dispose();
             new Game();
         });
         exit.addActionListener(e -> System.exit(-1));
