@@ -3,8 +3,6 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.geom.Line2D;
 import java.awt.image.BufferedImage;
 
@@ -17,14 +15,16 @@ import javax.swing.JPanel;
 class PlayPanel extends JPanel implements Runnable {
     private static BufferedImage ballImage;
     private static int ballX = 650;
-    private static int ballY = 500;
-    private static final int DELAY = 10;
+    private static int ballY = 496;
+    private int frame = 0, bounces =0;
+    private double lastCheck;
+    private static final int FPS = 144;
     private static boolean initiated = false;
     //0 pixel/ms 
     double speedY=5;
     // 0.07 pixel/ms^2
-    double accelerate = 0.07;
-    double deaccelerate = -0.07;
+    double accelerate = 0.03;
+    double deaccelerate = -0.05;
     Thread animator;
     public PlayPanel(){
         String filePath = "images/1200px-Soccerball.svg.png";
@@ -47,11 +47,11 @@ class PlayPanel extends JPanel implements Runnable {
             initiated = false;
             animator.interrupt();
         }
-        System.out.println(initiated);
     }
 
     public void reset(){
-        ballY = 500;
+        ballY = 496;
+        bounces = 0;
         initiated = false;
         animator.interrupt();
         repaint();
@@ -62,6 +62,15 @@ class PlayPanel extends JPanel implements Runnable {
         Graphics2D g2d = (Graphics2D) g;
         drawBaw(g2d);
         drawLines(g2d);
+        frame++;
+        //1 second has passed
+        if (System.currentTimeMillis() - lastCheck >=1000){
+            System.out.println("FPS: "+ frame);
+            lastCheck = System.currentTimeMillis();
+            frame =0;
+        }
+
+
     }
 
     public void drawBaw(Graphics2D g2d){
@@ -84,46 +93,38 @@ class PlayPanel extends JPanel implements Runnable {
     public void startAnimation() {
         animator = new Thread(this);
         animator.start();
+        lastCheck = System.currentTimeMillis();
     }
 
     public void cycle(){
         speedY +=deaccelerate;
-        System.out.println(ballY + " " + speedY);
+        System.out.println(ballY + " " + speedY + " " + bounces);
         ballY-=speedY;
-        if (ballY > 500){
+        if (ballY > 496){
             //Ball sinks to the ground so i just stop the animation at this point
-            if (Math.abs(speedY)<0.78 || ballY > 508){
+            if (Math.abs(speedY)<0.7 || ballY > 500){
                 reset();
+                System.out.println("STOPPED!");
             }
-            speedY+=1.3;
+            speedY+=(1.3-bounces*accelerate);
+            bounces++;
             speedY*=-1;
         }
     }
 
     @Override
     public void run(){
-        long beforeTime, timeDiff, sleep;
-
-        beforeTime = System.currentTimeMillis();
+        double beforeTime, currTime, timePerFrame;
+        timePerFrame = 1000000000/FPS;
+        beforeTime = System.nanoTime();
 
         while (initiated) {
-            cycle();
-            repaint();
-            timeDiff = System.currentTimeMillis() - beforeTime;
-            sleep = DELAY - timeDiff;
-
-            if (sleep < 0) {
-                sleep = 2;
+            currTime = System.nanoTime();
+            if (currTime - beforeTime >= timePerFrame){
+                cycle();
+                repaint();
+                beforeTime = currTime;
             }
-            try {
-                //Ensure that every repaint() call is exactly 10ms apart
-                Thread.sleep(sleep);
-            } catch (InterruptedException e) {
-                initiated = false;
-            }
-
-            beforeTime = System.currentTimeMillis();
-
     }
 
 }
