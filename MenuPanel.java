@@ -1,5 +1,6 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.ComponentOrientation;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -17,13 +18,12 @@ class MenuPanel extends JPanel implements ActionListener {
     JLabel force;
     long startTime = -1l;
     long endTime = -1l;
-    private GridLayout gl;
     public MenuPanel(){
         timer = new Timer(10, this);
         timer.start();
         JPanel buttonPanel=new JPanel();
         //create panel to hold 2 buttons
-        buttonPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+        buttonPanel.setLayout(new GridLayout(2, 2,5,5));
         //add button to the pane
         bounce = new JButton("Bounce!");
         stop = new JButton("Stop!");
@@ -33,6 +33,7 @@ class MenuPanel extends JPanel implements ActionListener {
         buttonPanel.add(stop);
         buttonPanel.add(reset);
         buttonPanel.setBackground(Color.red);
+        buttonPanel.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 
 
         //Main left panel to hold buttons and text
