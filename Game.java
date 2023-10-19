@@ -10,6 +10,7 @@ class Game{
     public Game(){
         random = new Random();
         id = random.nextInt(100000, 999999);
+        GameContainer.createAndShowGUI();
     }
     public void updateRound(){
         currRound++;

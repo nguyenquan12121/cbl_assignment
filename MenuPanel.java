@@ -13,9 +13,7 @@ import javax.swing.Timer;
 
 class MenuPanel extends JPanel implements ActionListener {
     Timer timer; 
-    JButton bounce;
-    JButton stop; 
-    JButton reset;
+    JButton bounce,stop, reset, next;
     JLabel force;
     long startTime = -1l;
     long endTime = -1l;
@@ -30,6 +28,7 @@ class MenuPanel extends JPanel implements ActionListener {
         bounce = new JButton("Bounce!");
         stop = new JButton("Stop!");
         reset = new JButton("Reset!");
+        next = new JButton("Next!");
         buttonPanel.add(bounce);
         buttonPanel.add(stop);
         buttonPanel.add(reset);

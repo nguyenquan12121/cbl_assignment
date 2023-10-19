@@ -24,7 +24,7 @@ public class MenuContainer {
         buttonPanel.add(exit);
         buttonPanel.setBackground(Color.red);
         play.addActionListener(e ->{
-            GameContainer.createAndShowGUI();
+            new Game();
         });
         exit.addActionListener(e -> System.exit(-1));
         frame.add(buttonPanel);
