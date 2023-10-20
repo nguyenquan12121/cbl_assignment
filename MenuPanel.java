@@ -18,6 +18,8 @@ class MenuPanel extends JPanel implements ActionListener {
     JLabel force;
     long startTime = -1l;
     long endTime = -1l;
+    boolean isPressed=false;
+    PlayPanel playPanel= new PlayPanel();
     public MenuPanel(){
         timer = new Timer(10, this);
         timer.start();
@@ -48,6 +50,9 @@ class MenuPanel extends JPanel implements ActionListener {
         this.add(buttonPanel, BorderLayout.NORTH);
         this.add(force, BorderLayout.CENTER);
     }
+    public boolean isBounceButtonPressed() {
+        return isPressed;
+    }
     public void startAnimation(PlayPanel pp){
         this.bounce.addMouseListener(
             // I wanted to use MouseAction but it doesnt work
@@ -66,20 +71,25 @@ class MenuPanel extends JPanel implements ActionListener {
 
                 @Override
                 public void mousePressed(java.awt.event.MouseEvent arg0) {
+                    isPressed=true;
                     startTime = System.currentTimeMillis();
+                    System.out.println("Pressed");
                     timer.start();
-                }
+                    playPanel.setcont(true);
+                    }
 
                 @Override
                 public void mouseReleased(java.awt.event.MouseEvent arg0) {
+                    System.out.println("Released");
+                    playPanel.setcont(false);
                     endTime = System.currentTimeMillis();
                     long duration = endTime - startTime;
                     System.out.println(duration);
                     pp.setTimer(true, duration);
+                
                 }
             }
-
-        );
+                );
         this.stop.addActionListener(e -> pp.setTimer(false, 0l));
     }
 
@@ -92,6 +102,9 @@ class MenuPanel extends JPanel implements ActionListener {
             pp.reset();
         }
         );
+    }
+    public boolean pressed(){
+        return isPressed;
     }
 
     @Override
