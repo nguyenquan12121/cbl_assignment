@@ -1,7 +1,6 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.ComponentOrientation;
-import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,9 +15,12 @@ class MenuPanel extends JPanel implements ActionListener {
     Timer timer; 
     JButton bounce,stop, reset, next;
     JLabel force;
+    long display;
+    PlayPanel ppMain;
     long startTime = -1l;
     long endTime = -1l;
-    public MenuPanel(){
+    public MenuPanel(PlayPanel pp){
+        this.ppMain = pp;
         timer = new Timer(10, this);
         timer.start();
         JPanel buttonPanel=new JPanel();
@@ -40,16 +42,14 @@ class MenuPanel extends JPanel implements ActionListener {
         //Main left panel to hold buttons and text
         //Set text field
         force = new JLabel("0.00");
-
-
         force.setBackground(Color.green);
         //Center the text
         force.setHorizontalAlignment(JLabel.CENTER);        
         this.setLayout(new BorderLayout());        
         this.add(buttonPanel, BorderLayout.NORTH);
         this.add(force, BorderLayout.CENTER);
-    }
-    public void startAnimation(PlayPanel pp){
+
+    
         this.bounce.addMouseListener(
             // I wanted to use MouseAction but it doesnt work
             new MouseListener() {
@@ -74,31 +74,31 @@ class MenuPanel extends JPanel implements ActionListener {
                 @Override
                 public void mouseReleased(java.awt.event.MouseEvent arg0) {
                     endTime = System.currentTimeMillis();
-                    long duration = endTime - startTime;
-                    System.out.println(duration);
-                    pp.setTimer(true, duration);
+                    //ppMain.setTimer(true, duration);
+                    ppMain.setSpringTimer(false, display);
+                    ppMain.launchBall();
                 }
             }
 
         );
-        this.stop.addActionListener(e -> pp.setTimer(false, 0l));
-    }
-
-    public void reset(PlayPanel pp){
+        this.stop.addActionListener(e -> ppMain.setTimer(false, 0l));
         this.reset.addActionListener( e ->{
             startTime = -1l;
             endTime = -1l;           
             force.setText("0.00");
             timer.stop();
-            pp.reset();
-        }
-        );
+            //ppMain.setSpringTimer(false, display);
+            //ppMain.setSpringTimer(false, display);
+            //ppMain.launchBall();
+            ppMain.reset();
+        });    
     }
 
     @Override
     public void actionPerformed(ActionEvent e){
         if (startTime != -1l){
-        long display = System.currentTimeMillis() - startTime;
+        display = System.currentTimeMillis() - startTime;
+        ppMain.setSpringTimer(true, display);
         force.setText(Long.toString(display));
         repaint();
         }

@@ -9,14 +9,12 @@ public class GameContainer {
 
     public static void addComponentsToPane (JFrame frame)  {
 
-
-        MenuPanel mainButtonPanel = new MenuPanel();
+        PlayPanel pp = new PlayPanel();
+        MenuPanel mainButtonPanel = new MenuPanel(pp);
         //Add menu panel to the east
         frame.add(mainButtonPanel, BorderLayout.EAST) ;
-        PlayPanel pp = new PlayPanel();
+
         //Allow buttons inside the menu panel to interact with the play panel
-        mainButtonPanel.startAnimation(pp);
-        mainButtonPanel.reset(pp);
         frame.add(pp);
 
     }
