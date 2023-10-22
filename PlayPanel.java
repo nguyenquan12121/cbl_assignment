@@ -16,6 +16,8 @@ class PlayPanel extends JPanel implements Runnable {
     private static BufferedImage ballImage;
     private static int ballX = 500;
     private static int ballY = 496;
+    private static int thermoX = 100;
+    private static int thermoY = 800;
     private int frame = 0;
     private double lastCheck;
     private static final int FPS = 144;
@@ -36,15 +38,16 @@ class PlayPanel extends JPanel implements Runnable {
     double deaccelerate = -0.05;
     Thread animator;
     public PlayPanel(){
-        String filePath = "images/pixel_ball.png";
+        String ballPath = "images/pixel_ball.png";
         try{
-            File imageFile = new File(filePath);
-            ballImage = ImageIO.read(imageFile);
+            File ballFile = new File(ballPath);
+            ballImage = ImageIO.read(ballFile);
         }
         catch(IOException e){
             e.printStackTrace();
         }
-        this.setBackground(Color.orange);
+        this.setVisible(true);
+        this.setBackground(Color.ORANGE);
     }
     //Called by stop button to freeze animation
     public void setTimer(boolean status, long duration){
@@ -65,7 +68,7 @@ class PlayPanel extends JPanel implements Runnable {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
         drawSpring(g2d);
-        drawBaw(g2d);
+        drawBall(g2d);
         drawLines(g2d);
         drawTarget(g2d, 70, 200);
         frame++;
@@ -77,11 +80,10 @@ class PlayPanel extends JPanel implements Runnable {
         }
     }
 
-    public void drawBaw(Graphics2D g2d){
+    public void drawBall(Graphics2D g2d){
         g2d.drawImage(ballImage, ballX, ballY, 100, 100, null);
         Toolkit.getDefaultToolkit().sync();
     }
-
     public void drawLines(Graphics2D g2d){
         g2d.setStroke(new BasicStroke(10));
         Line2D lineOne = new Line2D.Double(500, 150, 500, 680);
