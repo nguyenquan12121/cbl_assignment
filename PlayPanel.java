@@ -34,7 +34,7 @@ class PlayPanel extends JPanel implements Runnable {
     //0 pixel/ms 
     double speedY=0.02;
     // 0.07 pixel/ms^2
-    double accelerate = 0.03;
+    double accelerate = 0.05;
     double deaccelerate = -0.05;
     Thread animator;
     public PlayPanel(){
@@ -84,6 +84,7 @@ class PlayPanel extends JPanel implements Runnable {
         g2d.drawImage(ballImage, ballX, ballY, 100, 100, null);
         Toolkit.getDefaultToolkit().sync();
     }
+
     public void drawLines(Graphics2D g2d){
         g2d.setStroke(new BasicStroke(10));
         Line2D lineOne = new Line2D.Double(500, 150, 500, 680);
@@ -120,6 +121,8 @@ class PlayPanel extends JPanel implements Runnable {
         springStatus = false;
         releaseSignal = true;
         ballY = 496;
+        //150 seems to give the ball enough speed
+        speedY = springPressedDuration/150;
         springX=500; 
         springY=580;
         springY2=600;
@@ -147,14 +150,11 @@ class PlayPanel extends JPanel implements Runnable {
     }
     //Handle ball coordinates
     public void cycle(){
-        speedY +=deaccelerate;
-        //System.out.println(ballY + " " + speedY + " " + bounces);
-//        ballY-=(int) springPressedDuration/100;
-        ballY-=springPressedDuration/500;
-        if (springPressedDuration>=0){
-            springPressedDuration-=3;
+        ballY-=speedY;
+        if (speedY>=0){
+            speedY+=deaccelerate;
         }
-        System.out.println(springPressedDuration);
+        System.out.println(ballY + " " + speedY);
         // if (ballY > 496){
         //     //Ball sinks to the ground so i just stop the animation at this point
         //     if (Math.abs(speedY)<0.7 || ballY > 505){
