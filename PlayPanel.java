@@ -3,6 +3,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Toolkit;
+import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.image.BufferedImage;
 
@@ -13,32 +14,48 @@ import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 class PlayPanel extends JPanel implements Runnable {
-    private static BufferedImage ballImage;
-    private static int ballX = 500;
-    private static int ballY = 496;
-    private static int thermoX = 100;
-    private static int thermoY = 800;
     private int frame = 0;
     private double lastCheck;
     private static final int FPS = 144;
     boolean springStatus = false, releaseSignal = false;    
-    int springX=500, threadCounter = 0;
-    long springPressedDuration;
+
+    //Spring related 
+    int springX=500;
     private static int springY=580;
     private static int springWidth=30;
+    long springPressedDuration;
     int springFluc=5;
     boolean pressed;
+
+    //Ball related 
+    private static BufferedImage ballImage;
+    private static int ballX = 500;
+    private static int ballY = 496;
     //0 pixel/ms 
     double speedY=0.02;
     // 0.07 pixel/ms^2
     double accelerate = 0.05;
     double deaccelerate = -0.05;
+
+    //Threads
     Thread animator;
+    int threadCounter = 0;
+
+    //Trail related
+    private static BufferedImage thermoStat;
+    private static int circleY = 496;
+
+
     public PlayPanel(){
+
         String ballPath = "images/pixel_ball.png";
+        String thermoPath = "images/highstriker.png";
         try{
             File ballFile = new File(ballPath);
             ballImage = ImageIO.read(ballFile);
+
+            File thermoFile = new File(thermoPath);
+            thermoStat = ImageIO.read(thermoFile);            
         }
         catch(IOException e){
             e.printStackTrace();
@@ -64,6 +81,7 @@ class PlayPanel extends JPanel implements Runnable {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
+        drawThermoStat(g2d);
         drawSpring(g2d);
         drawBall(g2d);
         drawLines(g2d);
@@ -103,6 +121,10 @@ class PlayPanel extends JPanel implements Runnable {
         g2d.drawRect(500,height,100,size);
     }
 
+    public void drawThermoStat(Graphics2D g2d){
+        g2d.drawImage(thermoStat, 55,-20 , 1000, 1000, null);
+        Toolkit.getDefaultToolkit().sync();
+    }
     public void startAnimation() {
 
         //Only start 1 thread
