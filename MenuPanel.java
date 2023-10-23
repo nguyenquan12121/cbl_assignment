@@ -75,6 +75,7 @@ class MenuPanel extends JPanel implements ActionListener {
                 public void mouseReleased(java.awt.event.MouseEvent arg0) {
                     endTime = System.currentTimeMillis();
                     //ppMain.setTimer(true, duration);
+                    //spring timer is used in actionlistener to pull down the lever so set it false here
                     ppMain.setSpringTimer(false, display);
                     ppMain.launchBall();
                 }
@@ -87,9 +88,6 @@ class MenuPanel extends JPanel implements ActionListener {
             endTime = -1l;           
             force.setText("0.00");
             timer.stop();
-            //ppMain.setSpringTimer(false, display);
-            //ppMain.setSpringTimer(false, display);
-            //ppMain.launchBall();
             ppMain.reset();
         });    
     }
@@ -97,9 +95,9 @@ class MenuPanel extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e){
         if (startTime != -1l){
-        display = System.currentTimeMillis() - startTime;
-        ppMain.setSpringTimer(true, display);
-        force.setText(Long.toString(display));
+            display = System.currentTimeMillis() - startTime;
+            ppMain.setSpringTimer(true, display);
+            force.setText(Long.toString(display));
         repaint();
         }
         if (endTime !=-1l){

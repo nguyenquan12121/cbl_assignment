@@ -21,13 +21,10 @@ class PlayPanel extends JPanel implements Runnable {
     private int frame = 0;
     private double lastCheck;
     private static final int FPS = 144;
-    private static boolean springStatus = false, releaseSignal = false;    
+    boolean springStatus = false, releaseSignal = false;    
     int springX=500, threadCounter = 0;
     long springPressedDuration;
     private static int springY=580;
-    private static int springY2=600;
-    private static int springY3=620;
-    private static int springY4=640;
     private static int springWidth=30;
     int springFluc=5;
     boolean pressed;
@@ -74,7 +71,6 @@ class PlayPanel extends JPanel implements Runnable {
         frame++;
         //1 second has passed
         if (System.currentTimeMillis() - lastCheck >=1000){
-            System.out.println("FPS: "+ frame);
             lastCheck = System.currentTimeMillis();
             frame =0;
         }
@@ -82,7 +78,7 @@ class PlayPanel extends JPanel implements Runnable {
 
     public void drawBall(Graphics2D g2d){
         g2d.drawImage(ballImage, ballX, ballY, 100, 100, null);
-        Toolkit.getDefaultToolkit().sync();
+        Toolkit.getDefaultToolkit ().sync();
     }
 
     public void drawLines(Graphics2D g2d){
@@ -108,9 +104,10 @@ class PlayPanel extends JPanel implements Runnable {
     }
 
     public void startAnimation() {
-        animator = new Thread(this);
+
         //Only start 1 thread
         if (threadCounter ==0){
+            animator = new Thread(this);
             animator.start();
             threadCounter++;
         }
@@ -123,30 +120,26 @@ class PlayPanel extends JPanel implements Runnable {
         ballY = 496;
         //150 seems to give the ball enough speed
         speedY = springPressedDuration/150;
+        //Return the springs to their original location
         springX=500; 
         springY=580;
-        springY2=600;
-        System.out.println("BALL LAUNCHED!!!!!!");
-        springY3=620;
-        springY4=640;
+        //System.out.println("BALL LAUNCHED!!!!!!" + releaseSignal);
         springWidth = 30;
     }
     //Called with the reset button
     public void reset(){
         ballY = 496;
         springX=500; 
-        threadCounter = 0;
         springY=580;
-        springY2=600;
-        System.out.println("RESET!!!!!!");
-        springY3=620;
-        springY4=640;
+       // System.out.println("RESET!!!!!!");
         springWidth = 30;
         springStatus = false;
         releaseSignal = false;
         springPressedDuration = 0;
-        animator.interrupt();
+        speedY = 0;
         repaint();
+        if (threadCounter!=0) animator.interrupt();
+        threadCounter = 0;
     }
     //Handle ball coordinates
     public void cycle(){
@@ -154,22 +147,10 @@ class PlayPanel extends JPanel implements Runnable {
         if (speedY>=0){
             speedY+=deaccelerate;
         }
-        System.out.println(ballY + " " + speedY);
-        // if (ballY > 496){
-        //     //Ball sinks to the ground so i just stop the animation at this point
-        //     if (Math.abs(speedY)<0.7 || ballY > 505){
-        //         //reset();
-        //         //System.out.println("STOPPED!");
-        //     }
-        //     // speedY+=(1.3-bounces*accelerate);
-        //     // speedY+=(1.3);
-        //     // bounces++;
-        //     // speedY*=-1;
-        // }
+        //System.out.println(ballY + " " + speedY);
     }
     //Handle Springs coordinates
     public void compressSpring(){
-        //System.out.println(springY);
         //Ball and spring move at the same speed
         springY += 1;
         ballY +=1;
@@ -181,8 +162,7 @@ class PlayPanel extends JPanel implements Runnable {
         timePerFrame = 1000000000/FPS;
         beforeTime = System.nanoTime();
         //springStatus is true when the spring is compressing when the user is holding down the mouse button
-        System.out.println("SS "+ springStatus +" RS " + releaseSignal);
-        while (springStatus) {
+        while (springStatus && !releaseSignal) {
             currTime = System.nanoTime();
             //Rendering at lower frame to slow down the lowering speed of the spring
             //Setting the lower speed to lower than 1 doesnt change the position of the spring
@@ -202,14 +182,5 @@ class PlayPanel extends JPanel implements Runnable {
                 beforeTime = currTime;
             }
         }
-        // while (initiated) {
-        //     currTime = System.nanoTime();
-        //     if (currTime - beforeTime >= timePerFrame*5){
-        //         cycle();
-        //         //compressSpring();
-        //         repaint();
-        //         beforeTime = currTime;
-        //     }
-        // }
-}
+    }
 }
