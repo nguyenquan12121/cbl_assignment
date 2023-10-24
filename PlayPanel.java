@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Toolkit;
 import java.awt.geom.Line2D;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
 import java.io.File;
@@ -92,7 +93,7 @@ class PlayPanel extends JPanel implements Runnable {
         drawThermoStat(g2d);
         drawSpring(g2d);
         drawBall(g2d);
-        drawTarget(g2d, 400, 100);
+        drawTarget(g2d, 100, 200);
         frame++;
         //1 second has passed
         if (System.currentTimeMillis() - lastCheck >=1000){
@@ -107,15 +108,13 @@ class PlayPanel extends JPanel implements Runnable {
     }
 
     public void drawLines(Graphics2D g2d){
-        g2d.setStroke(new BasicStroke(50));
+        g2d.setStroke(new BasicStroke(30));
         Line2D lineOne = new Line2D.Double(500, 150, 500, 680);
         Line2D lineTwo = new Line2D.Double(600, 150, 600, 680);
         Line2D ground = new Line2D.Double(0, 680, 2000, 680);
-        Line2D testi = new Line2D.Double(500, 0, 500, 1000);
         g2d.draw(lineOne);
         g2d.draw(lineTwo);
         g2d.draw(ground);
-        g2d.draw(testi);
         Toolkit.getDefaultToolkit().sync();
 
 
@@ -127,10 +126,13 @@ class PlayPanel extends JPanel implements Runnable {
         g2d.drawOval(springX,springY+60,100,springWidth);
     }
 
-    public void drawTarget(Graphics2D g2d,int size, int heigth){
+    public void drawTarget(Graphics2D g2d,int size, int height){
+        g2d.setStroke(new BasicStroke(5));
         size=widthTarget;
-        heigth=heightTarget;
-        g2d.drawRect(500,heigth,100,size);
+        height=heightTarget;
+        g2d.drawRect(500,200,100,100); {
+            
+        }
     }
 
     public void drawThermoStat(Graphics2D g2d){
@@ -185,12 +187,9 @@ class PlayPanel extends JPanel implements Runnable {
     public int score(int BallYFinal){
         int multiplier=2;
         int scoreMax=1000;
-        int distance=Math.abs(heightTarget-50-((1/2)*widthTarget)-BallYFinal);
+        int distance=Math.abs(200+50-((1/2)*100)-BallYFinal);
         System.out.println("distance"+ distance);
-        int score=(scoreMax-(multiplier*distance));
-        if (score<0){
-            score=0;
-        }
+        int score=0;
         return score;
     }
     //Handle ball coordinates
