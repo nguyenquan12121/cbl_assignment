@@ -1,17 +1,25 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.ComponentOrientation;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
 class MenuPanel extends JPanel implements ActionListener {
+    BufferedImage backgroundImage;
     Timer timer; 
     JButton bounce,stop, reset, next;
     JLabel force;
@@ -20,12 +28,21 @@ class MenuPanel extends JPanel implements ActionListener {
     long startTime = -1l;
     long endTime = -1l;
     public MenuPanel(PlayPanel pp){
+        String backgroundPath = "images/control_panel.jpg";
+        try{
+            File backFile = new File(backgroundPath);
+            backgroundImage = ImageIO.read(backFile);
+
+        }
+        catch(IOException e){
+            e.printStackTrace();
+        }        
         this.ppMain = pp;
         timer = new Timer(10, this);
         timer.start();
         JPanel buttonPanel=new JPanel();
         //create panel to hold 2 buttons
-        buttonPanel.setLayout(new GridLayout(2, 2,5,5));
+        buttonPanel.setLayout(new GridLayout(2, 2,0,0));
         //add button to the pane
         bounce = new JButton("Bounce!");
         stop = new JButton("Stop!");
@@ -35,16 +52,15 @@ class MenuPanel extends JPanel implements ActionListener {
         buttonPanel.add(stop);
         buttonPanel.add(reset);
         buttonPanel.add(next);
-        buttonPanel.setBackground(Color.red);
-        buttonPanel.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 
 
         //Main left panel to hold buttons and text
         //Set text field
         force = new JLabel("0.00");
-        force.setBackground(Color.green);
         //Center the text
         force.setHorizontalAlignment(JLabel.CENTER);        
+        force.setForeground(Color.WHITE);
+        force.setFont(new Font(Font.DIALOG, Font.PLAIN, 24));
         this.setLayout(new BorderLayout());        
         this.add(buttonPanel, BorderLayout.NORTH);
         this.add(force, BorderLayout.CENTER);
@@ -92,6 +108,18 @@ class MenuPanel extends JPanel implements ActionListener {
         });    
     }
 
+
+    @Override
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        Graphics2D g2d = (Graphics2D) g;
+        drawBackground(g2d);
+    }
+
+    public void drawBackground(Graphics2D g2d){
+        g2d.drawImage(backgroundImage, 0, 0,200,800, null);
+    }
+    
     @Override
     public void actionPerformed(ActionEvent e){
         if (startTime != -1l){

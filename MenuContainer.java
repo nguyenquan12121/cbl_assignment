@@ -1,10 +1,16 @@
-import java.awt.BorderLayout;
+
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
+import java.awt.Font;
+import java.awt.Frame;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.GridLayout;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
-import javax.swing.BoxLayout;
+import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -13,38 +19,26 @@ import javax.swing.border.EmptyBorder;
 
 
 
-public class MenuContainer {
+public class MenuContainer extends JPanel {
+    BufferedImage backgroundImage;
     public MenuContainer(){
+        String backgroundPath = "images/menu_background.jpg";
+        try{
+            File backFile = new File(backgroundPath);
+            backgroundImage = ImageIO.read(backFile);
+
+        }
+        catch(IOException e){
+            e.printStackTrace();
+        }
 
     }
     public static void addComponentsToPane (JFrame frame)  {
-        JPanel buttonPanel=new JPanel();
-        buttonPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
-        buttonPanel.setLayout(new GridBagLayout());
-        //create panel to hold 2 buttons
-        buttonPanel.setLayout(new BoxLayout(buttonPanel,BoxLayout.PAGE_AXIS));
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.gridwidth = GridBagConstraints.REMAINDER;
-        gbc.anchor = GridBagConstraints.NORTH;
-        //add button to the pane
-        JLabel jl = new JLabel("<html><h1><strong><i>Hot Highstriker</i></strong></h1><hr></html>");
-        JButton play = new JButton("Play!");
-        JButton leaderboard = new JButton("Show leaderboard!");
-        JButton exit = new JButton("Exit!");
-        buttonPanel.add(jl, gbc);
-        buttonPanel.add(play, gbc);
-        buttonPanel.add(leaderboard, gbc);
-        buttonPanel.add(exit, gbc);
-        gbc.weighty = 1;
-        buttonPanel.setBackground(Color.red);
-        play.addActionListener(e ->{
-            frame.dispose();
-            new Game();
-        });
-        exit.addActionListener(e -> System.exit(-1));
-        frame.add(buttonPanel, BorderLayout.CENTER);
-
+        MainPanel mp = new MainPanel(frame);
+        frame.add(mp);
     }
+
+
 
     private static void createAndShowGUI() {
 
@@ -73,3 +67,44 @@ public class MenuContainer {
 }
 
 
+class MainPanel extends JPanel{
+    private BufferedImage backgroundImage;
+    public MainPanel(Frame frame){
+        String backgroundPath = "images/menu_background.jpg";
+        try{
+            File backFile = new File(backgroundPath);
+            backgroundImage = ImageIO.read(backFile);
+
+        }
+        catch(IOException e){
+            e.printStackTrace();
+        }
+        this.setBorder(new EmptyBorder(100, 500, 100, 500));
+        JLabel jl = new JLabel("Hot Highstriker!");
+        jl.setFont((new Font(Font.DIALOG, Font.PLAIN, 30)));
+        jl.setForeground(Color.WHITE);
+        JButton play = new JButton("Play!");
+        JButton leaderboard = new JButton("Show leaderboard!");
+        JButton exit = new JButton("Exit!");
+        this.add(jl);
+        this.add(play);
+        this.add(leaderboard);
+        this.add(exit);
+        this.setLayout(new GridLayout(4,1,3,50));
+        play.addActionListener(e ->{
+            frame.dispose();
+            new Game();
+        });
+        exit.addActionListener(e -> System.exit(-1));
+    }
+    @Override
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        Graphics2D g2d = (Graphics2D) g;
+        drawBackground(g2d);
+    }
+
+    public void drawBackground(Graphics2D g2d){
+        g2d.drawImage(backgroundImage, 0, 0,1400,1400, null);
+    }
+}

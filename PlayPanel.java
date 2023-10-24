@@ -3,7 +3,6 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Toolkit;
-import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.image.BufferedImage;
 
@@ -41,27 +40,31 @@ class PlayPanel extends JPanel implements Runnable {
     Thread animator;
     int threadCounter = 0;
 
-    //Trail related
+    //Highstiker related
     private static BufferedImage thermoStat;
     private static int circleY = 496;
 
+
+    private BufferedImage backgroundImage;
 
     public PlayPanel(){
 
         String ballPath = "images/pixel_ball.png";
         String thermoPath = "images/highstriker.png";
+        String backgroundPath = "images/menu_background.jpg";
         try{
             File ballFile = new File(ballPath);
             ballImage = ImageIO.read(ballFile);
 
             File thermoFile = new File(thermoPath);
-            thermoStat = ImageIO.read(thermoFile);            
+            thermoStat = ImageIO.read(thermoFile);
+            File backFile = new File(backgroundPath);
+            backgroundImage = ImageIO.read(backFile);                        
         }
         catch(IOException e){
             e.printStackTrace();
         }
         this.setVisible(true);
-        this.setBackground(Color.ORANGE);
     }
     //Called by stop button to freeze animation
     public void setTimer(boolean status, long duration){
@@ -81,6 +84,7 @@ class PlayPanel extends JPanel implements Runnable {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
+        drawBackground(g2d);
         drawThermoStat(g2d);
         drawSpring(g2d);
         drawBall(g2d);
@@ -122,9 +126,14 @@ class PlayPanel extends JPanel implements Runnable {
     }
 
     public void drawThermoStat(Graphics2D g2d){
-        g2d.drawImage(thermoStat, 55,-20 , 1000, 1000, null);
+        g2d.drawImage(thermoStat, 55,-75 , 1000, 1000, null);
         Toolkit.getDefaultToolkit().sync();
     }
+
+    public void drawBackground(Graphics2D g2d){
+        g2d.drawImage(backgroundImage, 0, 0,1400,1400, null);
+    }
+    
     public void startAnimation() {
 
         //Only start 1 thread
