@@ -10,15 +10,11 @@ public class GameContainer {
     public static void addComponentsToPane (JFrame frame)  {
 
         PlayPanel pp = new PlayPanel();
-        ThermostatPanel tp = new ThermostatPanel();
-        PlayPane playPane = new PlayPane(tp, pp);
         MenuPanel mainButtonPanel = new MenuPanel(pp);
         //Add menu panel to the east
         frame.add(mainButtonPanel, BorderLayout.EAST) ;
 
         //Allow buttons inside the menu panel to interact with the play panel
-        //frame.add(pp);
-        //frame.add(tp);
         frame.add(pp);
     }
 
