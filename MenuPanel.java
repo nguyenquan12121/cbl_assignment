@@ -23,6 +23,7 @@ class MenuPanel extends JPanel implements ActionListener {
     Timer timer; 
     JButton bounce,stop, reset, next;
     JLabel force;
+    int score=0;
     long display;
     PlayPanel ppMain;
     long startTime = -1l;
@@ -56,11 +57,11 @@ class MenuPanel extends JPanel implements ActionListener {
 
         //Main left panel to hold buttons and text
         //Set text field
-        force = new JLabel("0.00");
+        force = new JLabel("1");
         //Center the text
         force.setHorizontalAlignment(JLabel.CENTER);        
         force.setForeground(Color.WHITE);
-        force.setFont(new Font(Font.DIALOG, Font.PLAIN, 24));
+        force.setFont(new Font(Font.DIALOG, Font.PLAIN, 18));
         this.setLayout(new BorderLayout());        
         this.add(buttonPanel, BorderLayout.NORTH);
         this.add(force, BorderLayout.CENTER);
@@ -102,12 +103,14 @@ class MenuPanel extends JPanel implements ActionListener {
         this.reset.addActionListener( e ->{
             startTime = -1l;
             endTime = -1l;           
-            force.setText("0.00");
+            force.setText("1");
             timer.stop();
             ppMain.reset();
         });    
     }
-
+    public void setScore(int score){
+        force = new JLabel("1");
+    }
 
     @Override
     public void paintComponent(Graphics g) {
@@ -125,7 +128,7 @@ class MenuPanel extends JPanel implements ActionListener {
         if (startTime != -1l){
             display = System.currentTimeMillis() - startTime;
             ppMain.setSpringTimer(true, display);
-            force.setText(Long.toString(display));
+            force.setText("1");
         repaint();
         }
         if (endTime !=-1l){

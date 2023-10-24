@@ -92,7 +92,7 @@ class PlayPanel extends JPanel implements Runnable {
         drawThermoStat(g2d);
         drawSpring(g2d);
         drawBall(g2d);
-        drawTarget(g2d, 70, 500);
+        drawTarget(g2d, 400, 100);
         frame++;
         //1 second has passed
         if (System.currentTimeMillis() - lastCheck >=1000){
@@ -107,7 +107,7 @@ class PlayPanel extends JPanel implements Runnable {
     }
 
     public void drawLines(Graphics2D g2d){
-        g2d.setStroke(new BasicStroke(10));
+        g2d.setStroke(new BasicStroke(50));
         Line2D lineOne = new Line2D.Double(500, 150, 500, 680);
         Line2D lineTwo = new Line2D.Double(600, 150, 600, 680);
         Line2D ground = new Line2D.Double(0, 680, 2000, 680);
@@ -121,10 +121,10 @@ class PlayPanel extends JPanel implements Runnable {
 
     }
     public void drawSpring(Graphics2D g2d){
-        g2d.drawOval(springX,springY+springFluc,100,springWidth);
-        g2d.drawOval(springX,springY+springFluc+20,100,springWidth);
-        g2d.drawOval(springX,springY+springFluc+40,100,springWidth);
-        g2d.drawOval(springX,springY+springFluc+60,100,springWidth);
+        g2d.drawOval(springX,springY,100,springWidth);
+        g2d.drawOval(springX,springY+20,100,springWidth);
+        g2d.drawOval(springX,springY+40,100,springWidth);
+        g2d.drawOval(springX,springY+60,100,springWidth);
     }
 
     public void drawTarget(Graphics2D g2d,int size, int heigth){
@@ -162,7 +162,7 @@ class PlayPanel extends JPanel implements Runnable {
         //Return the springs to their original location
         springX=500; 
         springY=575;
-        //System.out.println("BALL LAUNCHED!!!!!!" + releaseSignal);
+        System.out.println("BALL LAUNCHED!!!!!!" + releaseSignal);
         springWidth = 30;
     }
     //Called with the reset button
@@ -170,22 +170,27 @@ class PlayPanel extends JPanel implements Runnable {
         ballY = 496;
         springX=500; 
         springY=580;
-       // System.out.println("RESET!!!!!!");
+       System.out.println("RESET!!!!!!");
         springWidth = 30;
-        springStatus = false;
+        springStatus = true;
         releaseSignal = false;
         springPressedDuration = 0;
         speedY = 0;
         repaint();
         if (threadCounter!=0) animator.interrupt();
         threadCounter = 0;
-        cycle();
+        
     }
     //Handles scoring
     public int score(int BallYFinal){
-        int multiplier=3;
+        int multiplier=2;
         int scoreMax=1000;
-        int score=Math.abs(0);
+        int distance=Math.abs(heightTarget-50-((1/2)*widthTarget)-BallYFinal);
+        System.out.println("distance"+ distance);
+        int score=(scoreMax-(multiplier*distance));
+        if (score<0){
+            score=0;
+        }
         return score;
     }
     //Handle ball coordinates
@@ -202,7 +207,7 @@ class PlayPanel extends JPanel implements Runnable {
     //Handle Springs coordinates
     public void compressSpring(){
         //Ball and spring move at the same speed
-        springY += springFluc; ///so they can get closr // add it getting shorter
+        springY += springFluc; ///so they can get closer // add it getting shorter 
         if (springWidth>3){
             springWidth--;
         }
@@ -233,7 +238,7 @@ class PlayPanel extends JPanel implements Runnable {
             currTime = System.nanoTime();
             if (currTime - beforeTime >= timePerFrame){
                 cycle();
-                //System.out.println("BALL FLYING!");
+                System.out.println("BALL FLYING!");
                 repaint();
                 beforeTime = currTime;
             }
