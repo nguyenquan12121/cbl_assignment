@@ -20,7 +20,7 @@ class PlayPanel extends JPanel implements Runnable {
 
     //Spring related 
     int springX=500;
-    private static int springY=580;
+    private static int springY=575;
     private static int springWidth=30;
     long springPressedDuration;
     int springFluc=5;
@@ -43,6 +43,10 @@ class PlayPanel extends JPanel implements Runnable {
     //Highstiker related
     private static BufferedImage thermoStat;
     private static int circleY = 496;
+
+    //Target related
+    int widthTarget;
+    int heightTarget;
 
 
     private BufferedImage backgroundImage;
@@ -88,8 +92,7 @@ class PlayPanel extends JPanel implements Runnable {
         drawThermoStat(g2d);
         drawSpring(g2d);
         drawBall(g2d);
-        drawLines(g2d);
-        drawTarget(g2d, 70, 200);
+        drawTarget(g2d, 70, 500);
         frame++;
         //1 second has passed
         if (System.currentTimeMillis() - lastCheck >=1000){
@@ -108,21 +111,26 @@ class PlayPanel extends JPanel implements Runnable {
         Line2D lineOne = new Line2D.Double(500, 150, 500, 680);
         Line2D lineTwo = new Line2D.Double(600, 150, 600, 680);
         Line2D ground = new Line2D.Double(0, 680, 2000, 680);
+        Line2D testi = new Line2D.Double(500, 0, 500, 1000);
         g2d.draw(lineOne);
         g2d.draw(lineTwo);
         g2d.draw(ground);
+        g2d.draw(testi);
         Toolkit.getDefaultToolkit().sync();
+
 
     }
     public void drawSpring(Graphics2D g2d){
-        g2d.drawOval(springX,springY,100,springWidth);
-        g2d.drawOval(springX,springY+20,100,springWidth);
-        g2d.drawOval(springX,springY+40,100,springWidth);
-        g2d.drawOval(springX,springY+60,100,springWidth);
+        g2d.drawOval(springX,springY+springFluc,100,springWidth);
+        g2d.drawOval(springX,springY+springFluc+20,100,springWidth);
+        g2d.drawOval(springX,springY+springFluc+40,100,springWidth);
+        g2d.drawOval(springX,springY+springFluc+60,100,springWidth);
     }
 
-    public void drawTarget(Graphics2D g2d,int size, int height){
-        g2d.drawRect(500,height,100,size);
+    public void drawTarget(Graphics2D g2d,int size, int heigth){
+        size=widthTarget;
+        heigth=heightTarget;
+        g2d.drawRect(500,heigth,100,size);
     }
 
     public void drawThermoStat(Graphics2D g2d){
@@ -150,10 +158,10 @@ class PlayPanel extends JPanel implements Runnable {
         releaseSignal = true;
         ballY = 496;
         //150 seems to give the ball enough speed
-        speedY = springPressedDuration/150;
+        speedY = springPressedDuration/370;
         //Return the springs to their original location
         springX=500; 
-        springY=580;
+        springY=575;
         //System.out.println("BALL LAUNCHED!!!!!!" + releaseSignal);
         springWidth = 30;
     }
@@ -171,6 +179,14 @@ class PlayPanel extends JPanel implements Runnable {
         repaint();
         if (threadCounter!=0) animator.interrupt();
         threadCounter = 0;
+        cycle();
+    }
+    //Handles scoring
+    public int score(int BallYFinal){
+        int multiplier=3;
+        int scoreMax=1000;
+        int score=Math.abs(0);
+        return score;
     }
     //Handle ball coordinates
     public void cycle(){
@@ -178,13 +194,22 @@ class PlayPanel extends JPanel implements Runnable {
         if (speedY>=0){
             speedY+=deaccelerate;
         }
+        else{
+             System.out.println(score(ballY));
+        }
         //System.out.println(ballY + " " + speedY);
     }
     //Handle Springs coordinates
     public void compressSpring(){
         //Ball and spring move at the same speed
-        springY += 1;
-        ballY +=1;
+        springY += springFluc; ///so they can get closr // add it getting shorter
+        if (springWidth>3){
+            springWidth--;
+        }
+        ballY =springY-70;
+        if(springFluc>1){
+        springFluc--;
+        }
 
     }
     @Override

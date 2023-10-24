@@ -44,13 +44,12 @@ public class MenuContainer extends JPanel {
 
         //Create and set up the window.
         JFrame frame = new JFrame("Welcome Screen");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(1280, 720);
         frame.setLocationRelativeTo(null);
-        frame.setPreferredSize(new Dimension(1280, 720));
         //Set up content pane
         addComponentsToPane(frame);
-
-
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        
         frame.pack();
         frame.setVisible(true);
     }
