@@ -247,6 +247,8 @@ class PlayPanel extends JPanel implements Runnable {
             }
         }
         beforeTime = System.nanoTime();
+        //idk why but having this print statement here fixes the issue of resetting
+        System.out.println(releaseSignal);
         while (releaseSignal) {
             currTime = System.nanoTime();
             deltaT += (currTime - beforeTime)/timePerTick;
