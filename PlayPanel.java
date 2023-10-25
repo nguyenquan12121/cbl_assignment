@@ -17,9 +17,9 @@ class PlayPanel extends JPanel implements Runnable {
 
     InformationPanel ip;
 
-    private int frame = 0;
     private double lastCheck;
     private static final int FPS = 144;
+    private static final int TICKS = 128;
     boolean springStatus = false, releaseSignal = false;    
 
     //Spring related 
@@ -27,7 +27,7 @@ class PlayPanel extends JPanel implements Runnable {
     private static int springY=575;
     private static int springWidth=30;
     long springPressedDuration;
-    int springFluc=5;
+    int springFluc=1;
     boolean pressed;
 
     //Ball related 
@@ -214,38 +214,53 @@ class PlayPanel extends JPanel implements Runnable {
         //Ball and spring move at the same speed
         springY += springFluc; ///so they can get closer // add it getting shorter 
         if (springWidth>3){
-            springWidth--;
+            springWidth-=0.01;
         }
         ballY =springY-70;
         if(springFluc>1){
-            springFluc--;
+            springFluc-=0.01;
         }
 
     }
     @Override
     public void run(){
-        double beforeTime, currTime, timePerFrame;
-        timePerFrame = 1000000000/FPS;
+        long beforeTime, currTime;
+        double timePerTick = 1000000000/TICKS;
+        double timePerFrame = 1000000000/FPS;
+        //delta tick rate to deal with lags
+        double deltaT = 0, deltaF = 0;
         beforeTime = System.nanoTime();
         //springStatus is true when the spring is compressing when the user is holding down the mouse button
         while (springStatus && !releaseSignal) {
             currTime = System.nanoTime();
-            //Rendering at lower frame to slow down the lowering speed of the spring
-            //Setting the lower speed to lower than 1 doesnt change the position of the spring
-            if (currTime - beforeTime >= timePerFrame*5){
-                //System.out.println("SPRING!");
+            deltaT += (currTime - beforeTime)/timePerTick;
+            deltaF += (currTime - beforeTime)/timePerFrame;
+            beforeTime = currTime;
+            if (deltaT >=1){
                 compressSpring();
+                //deltaT might be 1.02 since there are inheriant lags and the game should only be update when delta is 1 so decrement by 1 and the 0.02 delay is accounted for in the next tick
+                deltaT--;
+            }
+            if (deltaF >=1){
                 repaint();
-                beforeTime = currTime;
+                deltaF--;
             }
         }
+        beforeTime = System.nanoTime();
         while (releaseSignal) {
             currTime = System.nanoTime();
-            if (currTime - beforeTime >= timePerFrame){
+            deltaT += (currTime - beforeTime)/timePerTick;
+            // System.out.println(deltaT);
+            deltaF += (currTime - beforeTime)/timePerFrame;
+            beforeTime = currTime;
+            if (deltaT >=1){
                 cycle();
-                // System.out.println("BALL FLYING!");
+                //deltaT might be 1.02 since there are inheriant lags and the game should only be update when delta is 1 so decrement by 1 and the 0.02 delay is accounted for in the next tick
+                deltaT--;
+            }
+            if (deltaF >=1){
                 repaint();
-                beforeTime = currTime;
+                deltaF--;
             }
         }
     }
