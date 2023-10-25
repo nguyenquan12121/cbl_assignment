@@ -14,7 +14,8 @@ import javax.swing.JPanel;
 class InformationPanel extends JPanel{
     int score, totalScore, currRound =1;
     BufferedImage backgroundImage;
-    JLabel force, scoreLabel, totalScoreLabel, currRoundLabel;
+    JLabel force, scoreLabel, totalScoreLabel, currRoundLabel, roundInfo;
+
     public InformationPanel(){
         loadGraphics();
     }
@@ -33,6 +34,7 @@ class InformationPanel extends JPanel{
         scoreLabel = new JLabel("Score: 0");        
         totalScoreLabel = new JLabel("Total Score: 0");        
         currRoundLabel = new JLabel("Current Round: "+Integer.toString(currRound));
+        roundInfo = new JLabel();
         //Center the text
         force.setHorizontalAlignment(JLabel.CENTER);        
         force.setForeground(Color.WHITE);
@@ -47,11 +49,12 @@ class InformationPanel extends JPanel{
         currRoundLabel.setForeground(Color.WHITE);
         currRoundLabel.setFont(new Font(Font.DIALOG, Font.PLAIN, 18));        
 
-        this.setLayout(new GridLayout(4, 1, 0,-300));  
+        this.setLayout(new GridLayout(5, 1, 0,-300));  
         this.add(currRoundLabel);
         this.add(totalScoreLabel);
         this.add(scoreLabel);         
         this.add(force);
+        this.add(roundInfo);
     }
 
     @Override

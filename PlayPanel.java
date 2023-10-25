@@ -9,17 +9,15 @@ import java.awt.image.BufferedImage;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Random;
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
-class PlayPanel extends JPanel implements Runnable {
+class PlayPanel extends JPanel  {
 
     InformationPanel ip;
 
-    private double lastCheck;
-    private static final int FPS = 144;
-    private static final int TICKS = 128;
     boolean springStatus = false, releaseSignal = false;    
 
     //Spring related 
@@ -35,22 +33,20 @@ class PlayPanel extends JPanel implements Runnable {
     private static int ballX = 500;
     private static int ballY = 496;
     //0 pixel/ms 
-    double speedY=0.02;
+    double speedY=0;
     // 0.07 pixel/ms^2
     double accelerate = 0.05;
     double deaccelerate = -0.05;
-
-    //Threads
-    Thread animator;
-    int threadCounter = 0;
 
     //Highstiker related
     private static BufferedImage thermoStat;
 
     //Target related
-    int widthTarget;
-    int heightTarget;
+    int widthTarget =100;
+    int heightTarget =200;
 
+    //Random object
+    Random random;
     final int SCORE_MAX=1000;
     double currRoundScore = 0;
     private BufferedImage backgroundImage;
@@ -79,15 +75,11 @@ class PlayPanel extends JPanel implements Runnable {
     }
     //Called by stop button to freeze animation
     public void setTimer(boolean status, long duration){
-            animator.interrupt();
+            // animator.interrupt();
     }
     //Method is called by ActionListener to start the spring compress animation
     //Method is called by MouseRelease to end the spring compress animation
     public void setSpringTimer(boolean status, long duration){
-        if (status){
-            startAnimation();
-        }
-        springStatus = status;
         springPressedDuration = duration;
     }
 
@@ -99,7 +91,7 @@ class PlayPanel extends JPanel implements Runnable {
         drawThermoStat(g2d);
         drawSpring(g2d);
         drawBall(g2d);
-        drawTarget(g2d, 100, 200);
+        drawTarget(g2d,  heightTarget);
     }
 
     public void drawBall(Graphics2D g2d){
@@ -127,10 +119,8 @@ class PlayPanel extends JPanel implements Runnable {
         g2d.drawOval(springX,springY+60,100,springWidth);
     }
 
-    public void drawTarget(Graphics2D g2d,int size, int height){
+    public void drawTarget(Graphics2D g2d, int height){
         g2d.setStroke(new BasicStroke(10));
-        widthTarget = size;
-        heightTarget = height;
         g2d.setColor(Color.RED);
         g2d.drawOval(545,heightTarget,10,10);
     }
@@ -144,28 +134,15 @@ class PlayPanel extends JPanel implements Runnable {
         g2d.drawImage(backgroundImage, 0, 0,1400,1400, null);
     }
     
-    public void startAnimation() {
-
-        //Only start 1 thread
-        if (threadCounter ==0){
-            animator = new Thread(this);
-            animator.start();
-            threadCounter++;
-        }
-        lastCheck = System.currentTimeMillis();
-    }
 
     //Called with mouseRelease event from the "bounce button"
     public void launchBall(){
-        springStatus = false;
-        releaseSignal = true;
         ballY = 496;
         //150 seems to give the ball enough speed
         speedY = springPressedDuration/150;
         //Return the springs to their original location
         springX=500; 
         springY=575;
-        System.out.println("BALL LAUNCHED!!!!!!" + releaseSignal);
         springWidth = 30;
     }
 
@@ -174,16 +151,10 @@ class PlayPanel extends JPanel implements Runnable {
         ballY = 496;
         springX=500; 
         springY=580;
-        System.out.println("RESET!!!!!!");
         springWidth = 30;
-        springStatus = true;
-        releaseSignal = false;
         springPressedDuration = 0;
         speedY = 0;
         repaint();
-        if (threadCounter!=0) animator.interrupt();
-        threadCounter = 0;
-        
     }
     //Handles scoring
     public double score(int BallYFinal, int heightTarget){
@@ -197,18 +168,15 @@ class PlayPanel extends JPanel implements Runnable {
     //Handle ball coordinates
     public void updateBallLaunch(){
         ballY-=speedY;
-        System.out.println(speedY);
         if (speedY>=0){
             speedY+=deaccelerate;
         }
         else{
             speedY = 0;
             currRoundScore = score(ballY, heightTarget);
-            System.out.println(currRoundScore);
             ip.updateCurrScore((int) currRoundScore);
-            releaseSignal = false;
+            GameState.state = GameState.TRANSITION;
         }
-        //System.out.println(ballY + " " + speedY);
     }
 
     //Handle Springs coordinates
@@ -222,50 +190,10 @@ class PlayPanel extends JPanel implements Runnable {
         if(springFluc>1){
             springFluc-=0.01;
         }
-
     }
-    @Override
-    public void run(){
-        long beforeTime, currTime;
-        double timePerTick = 1000000000/TICKS;
-        double timePerFrame = 1000000000/FPS;
-        //delta tick rate to deal with lags
-        double deltaT = 0, deltaF = 0;
-        beforeTime = System.nanoTime();
-        //springStatus is true when the spring is compressing when the user is holding down the mouse button
-        while (springStatus && !releaseSignal) {
-            currTime = System.nanoTime();
-            deltaT += (currTime - beforeTime)/timePerTick;
-            deltaF += (currTime - beforeTime)/timePerFrame;
-            beforeTime = currTime;
-            if (deltaT >=1){
-                compressSpring();
-                //deltaT might be 1.02 since there are inheriant lags and the game should only be update when delta is 1 so decrement by 1 and the 0.02 delay is accounted for in the next tick
-                deltaT--;
-            }
-            if (deltaF >=1){
-                repaint();
-                deltaF--;
-            }
-        }
-        beforeTime = System.nanoTime();
-        //idk why but having this print statement here fixes the issue of resetting
-        System.out.println(releaseSignal);
-        while (releaseSignal) {
-            currTime = System.nanoTime();
-            deltaT += (currTime - beforeTime)/timePerTick;
-            // System.out.println(deltaT);
-            deltaF += (currTime - beforeTime)/timePerFrame;
-            beforeTime = currTime;
-            if (deltaT >=1){
-                updateBallLaunch();
-                //deltaT might be 1.02 since there are inheriant lags and the game should only be update when delta is 1 so decrement by 1 and the 0.02 delay is accounted for in the next tick
-                deltaT--;
-            }
-            if (deltaF >=1){
-                repaint();
-                deltaF--;
-            }
-        }
+
+    public void generateTarget(){
+        random = new Random();
+        heightTarget = random.nextInt(150,450);
     }
 }

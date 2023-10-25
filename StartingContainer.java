@@ -23,8 +23,8 @@ public class StartingContainer extends JPanel {
 
     }
     public static void addComponentsToPane (JFrame frame)  {
-        StartingPanel mp = new StartingPanel(frame);
-        frame.add(mp);
+        StartingPanel sp = new StartingPanel(frame);
+        frame.add(sp);
     }
 
 

@@ -1,6 +1,5 @@
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-
 import javax.swing.JFrame;
 
 
@@ -8,9 +7,11 @@ import javax.swing.JFrame;
 public class GameContainer {
     PlayPanel pp;
     MenuPanel mainButtonPanel;
-    public GameContainer(){
-        pp = new PlayPanel();
-        mainButtonPanel = new MenuPanel(pp);
+    JFrame frame;
+    public GameContainer(PlayPanel pp, MenuPanel mp){
+        frame = new JFrame("Game");
+        this.pp = pp;
+        this.mainButtonPanel = mp;
     }
 
     public void addComponentsToPane (JFrame frame)  {
@@ -24,13 +25,15 @@ public class GameContainer {
     public void createAndShowGUI() {
 
         //Create and set up the window.
-        JFrame frame = new JFrame("Game");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setPreferredSize(new Dimension(1280, 720));
         //Set up content pane
         this.addComponentsToPane(frame);
         frame.pack();
         frame.setVisible(true);
+    }
+    public void exitPanel(){
+        this.frame.dispose();
     }
 }
 
