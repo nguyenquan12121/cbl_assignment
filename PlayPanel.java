@@ -120,6 +120,7 @@ class PlayPanel extends JPanel implements Runnable {
 
     }
     public void drawSpring(Graphics2D g2d){
+        g2d.setStroke(new BasicStroke(10));
         g2d.drawOval(springX,springY,100,springWidth);
         g2d.drawOval(springX,springY+20,100,springWidth);
         g2d.drawOval(springX,springY+40,100,springWidth);
@@ -194,8 +195,9 @@ class PlayPanel extends JPanel implements Runnable {
     }
 
     //Handle ball coordinates
-    public void cycle(){
+    public void updateBallLaunch(){
         ballY-=speedY;
+        System.out.println(speedY);
         if (speedY>=0){
             speedY+=deaccelerate;
         }
@@ -256,7 +258,7 @@ class PlayPanel extends JPanel implements Runnable {
             deltaF += (currTime - beforeTime)/timePerFrame;
             beforeTime = currTime;
             if (deltaT >=1){
-                cycle();
+                updateBallLaunch();
                 //deltaT might be 1.02 since there are inheriant lags and the game should only be update when delta is 1 so decrement by 1 and the 0.02 delay is accounted for in the next tick
                 deltaT--;
             }
