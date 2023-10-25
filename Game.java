@@ -1,16 +1,18 @@
 import java.util.Random;
 
-class Game{
+class Game implements Runnable{
     private Integer id;
     Random random;
+    GameContainer gameContainer;
     final int ROUND_COUNT = 3;
     private int currRound = 1;
-    private Integer currScore;
+    private Integer currScore, totalScore;
     private Player player;
-    public Game(){
+    public Game() {
         random = new Random();
         id = random.nextInt(100000, 999999);
-        GameContainer.createAndShowGUI();
+        gameContainer = new GameContainer();
+        gameContainer.createAndShowGUI();
     }
     public void updateRound(){
         currRound++;
@@ -24,5 +26,10 @@ class Game{
     }
     public Integer getID(){
         return id;
+    }
+    @Override
+    public void run() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'run'");
     }
 }

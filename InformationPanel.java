@@ -16,6 +16,10 @@ class InformationPanel extends JPanel{
     BufferedImage backgroundImage;
     JLabel force, scoreLabel, totalScoreLabel, currRoundLabel;
     public InformationPanel(){
+        loadGraphics();
+    }
+
+    public void loadGraphics(){
         String backgroundPath = "images/control_panel.jpg";
         try{
             File backFile = new File(backgroundPath);
