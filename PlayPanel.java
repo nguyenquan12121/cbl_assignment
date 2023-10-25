@@ -14,6 +14,9 @@ import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 class PlayPanel extends JPanel implements Runnable {
+
+    InformationPanel ip;
+
     private int frame = 0;
     private double lastCheck;
     private static final int FPS = 144;
@@ -43,17 +46,16 @@ class PlayPanel extends JPanel implements Runnable {
 
     //Highstiker related
     private static BufferedImage thermoStat;
-    private static int circleY = 496;
 
     //Target related
     int widthTarget;
     int heightTarget;
 
-
+    final int SCORE_MAX=1000;
+    double currRoundScore = 0;
     private BufferedImage backgroundImage;
 
     public PlayPanel(){
-
         String ballPath = "images/pixel_ball.png";
         String thermoPath = "images/highstriker.png";
         String backgroundPath = "images/menu_background.jpg";
@@ -70,6 +72,10 @@ class PlayPanel extends JPanel implements Runnable {
             e.printStackTrace();
         }
         this.setVisible(true);
+    }
+
+    public void addInfoPanel(InformationPanel ip){
+        this.ip = ip;
     }
     //Called by stop button to freeze animation
     public void setTimer(boolean status, long duration){
@@ -94,17 +100,11 @@ class PlayPanel extends JPanel implements Runnable {
         drawSpring(g2d);
         drawBall(g2d);
         drawTarget(g2d, 100, 200);
-        frame++;
-        //1 second has passed
-        if (System.currentTimeMillis() - lastCheck >=1000){
-            lastCheck = System.currentTimeMillis();
-            frame =0;
-        }
     }
 
     public void drawBall(Graphics2D g2d){
         g2d.drawImage(ballImage, ballX, ballY, 100, 100, null);
-        Toolkit.getDefaultToolkit ().sync();
+        Toolkit.getDefaultToolkit().sync();
     }
 
     public void drawLines(Graphics2D g2d){
@@ -127,12 +127,11 @@ class PlayPanel extends JPanel implements Runnable {
     }
 
     public void drawTarget(Graphics2D g2d,int size, int height){
-        g2d.setStroke(new BasicStroke(5));
-        size=widthTarget;
-        height=heightTarget;
-        g2d.drawRect(500,200,100,100); {
-            
-        }
+        g2d.setStroke(new BasicStroke(10));
+        widthTarget = size;
+        heightTarget = height;
+        g2d.setColor(Color.RED);
+        g2d.drawOval(545,heightTarget,10,10);
     }
 
     public void drawThermoStat(Graphics2D g2d){
@@ -154,25 +153,27 @@ class PlayPanel extends JPanel implements Runnable {
         }
         lastCheck = System.currentTimeMillis();
     }
+
     //Called with mouseRelease event from the "bounce button"
     public void launchBall(){
         springStatus = false;
         releaseSignal = true;
         ballY = 496;
         //150 seems to give the ball enough speed
-        speedY = springPressedDuration/370;
+        speedY = springPressedDuration/150;
         //Return the springs to their original location
         springX=500; 
         springY=575;
         System.out.println("BALL LAUNCHED!!!!!!" + releaseSignal);
         springWidth = 30;
     }
+
     //Called with the reset button
     public void reset(){
         ballY = 496;
         springX=500; 
         springY=580;
-       System.out.println("RESET!!!!!!");
+        System.out.println("RESET!!!!!!");
         springWidth = 30;
         springStatus = true;
         releaseSignal = false;
@@ -184,14 +185,14 @@ class PlayPanel extends JPanel implements Runnable {
         
     }
     //Handles scoring
-    public int score(int BallYFinal){
-        int multiplier=2;
-        int scoreMax=1000;
-        int distance=Math.abs(200+50-((1/2)*100)-BallYFinal);
-        System.out.println("distance"+ distance);
-        int score=0;
-        return score;
+    public double score(int BallYFinal, int heightTarget){
+        int distance=Math.abs(heightTarget-BallYFinal);
+        //the Lower the distance the higher the score
+        double calcScore=1000/distance;
+        //int score=Math.max(SCORE_MAX,calcScore );
+    return calcScore;
     }
+
     //Handle ball coordinates
     public void cycle(){
         ballY-=speedY;
@@ -199,10 +200,15 @@ class PlayPanel extends JPanel implements Runnable {
             speedY+=deaccelerate;
         }
         else{
-             System.out.println(score(ballY));
+            speedY = 0;
+            currRoundScore = score(ballY, heightTarget);
+            System.out.println(currRoundScore);
+            ip.updateCurrScore((int) currRoundScore);
+            releaseSignal = false;
         }
         //System.out.println(ballY + " " + speedY);
     }
+
     //Handle Springs coordinates
     public void compressSpring(){
         //Ball and spring move at the same speed
@@ -212,7 +218,7 @@ class PlayPanel extends JPanel implements Runnable {
         }
         ballY =springY-70;
         if(springFluc>1){
-        springFluc--;
+            springFluc--;
         }
 
     }
@@ -237,7 +243,7 @@ class PlayPanel extends JPanel implements Runnable {
             currTime = System.nanoTime();
             if (currTime - beforeTime >= timePerFrame){
                 cycle();
-                System.out.println("BALL FLYING!");
+                // System.out.println("BALL FLYING!");
                 repaint();
                 beforeTime = currTime;
             }
