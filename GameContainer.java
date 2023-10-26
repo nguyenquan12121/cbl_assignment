@@ -1,16 +1,20 @@
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-
 import javax.swing.JFrame;
 
 
 
 public class GameContainer {
+    PlayPanel pp;
+    MenuPanel mainButtonPanel;
+    JFrame frame;
+    public GameContainer(PlayPanel pp, MenuPanel mp){
+        frame = new JFrame("Game");
+        this.pp = pp;
+        this.mainButtonPanel = mp;
+    }
 
-    public static void addComponentsToPane (JFrame frame)  {
-
-        PlayPanel pp = new PlayPanel();
-        MenuPanel mainButtonPanel = new MenuPanel(pp);
+    public void addComponentsToPane (JFrame frame)  {
         //Add menu panel to the east
         frame.add(mainButtonPanel, BorderLayout.EAST) ;
 
@@ -18,18 +22,18 @@ public class GameContainer {
         frame.add(pp);
     }
 
-    public static void createAndShowGUI() {
+    public void createAndShowGUI() {
 
         //Create and set up the window.
-        JFrame frame = new JFrame("Game");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setPreferredSize(new Dimension(1280, 720));
         //Set up content pane
-        addComponentsToPane(frame);
-
-
+        this.addComponentsToPane(frame);
         frame.pack();
         frame.setVisible(true);
+    }
+    public void exitPanel(){
+        this.frame.dispose();
     }
 }
 
