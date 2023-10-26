@@ -1,4 +1,3 @@
-
 class Game implements Runnable{
     PlayPanel pp;
     MenuPanel mainButtonPanel;

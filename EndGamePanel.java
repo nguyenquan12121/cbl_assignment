@@ -14,30 +14,36 @@ class EndGamePanel extends JPanel{
 
     int highScore;
     LeaderboardEntry entry;
-
     public EndGamePanel(Frame frame, int score, LeaderboardEntry entry){
-        this.setBorder(new EmptyBorder(100, 200, 100, 200));
+        this.setBorder(new EmptyBorder(100, 50, 100, 50));
         this.entry = entry;
         this.highScore = score;
         JLabel scoreLabel = new JLabel();
         this.setLayout(new FlowLayout(FlowLayout.CENTER));
-        JButton play = new JButton("Update DB");
-        JButton exit = new JButton("Return to Start Screen!");
-        JTextField userName = new JTextField("Please enter your name!");
+        JButton save = new JButton("Save To Leaderboard");
+        JButton returnStart = new JButton("Return to Start Screen!");
+        JButton quit = new JButton("Quit To System");
+        JTextField userName = new JTextField();
         scoreLabel.setHorizontalAlignment(JLabel.CENTER);        
         scoreLabel.setForeground(Color.WHITE);
         scoreLabel.setFont(new Font(Font.DIALOG, Font.PLAIN, 18));
         scoreLabel.setText("CONGRATULATIONS! YOUR HIGH SCORE IS "+ this.highScore);
         this.add(scoreLabel);
-        this.add(play);
-        this.add(exit);
         this.add(userName);
-        this.setLayout(new GridLayout(5, 1, 0,20));  
+        this.add(save);
+        this.add(returnStart);
+        this.add(quit);
+        this.setLayout(new GridLayout(5, 1, 20,60));  
         this.setBackground(Color.red);
-        play.addActionListener(e ->{
+        save.addActionListener(e ->{
         });
-        exit.addActionListener(e -> System.exit(-1));        
-        
-
+        quit.addActionListener(e -> System.exit(-1));
+        returnStart.addActionListener(e -> {
+            frame.dispose();
+            StartingContainer.createAndShowGUI();
+        });        
+        //this.setBounds(0, 0, 700, 700);
     }
 }
+
+

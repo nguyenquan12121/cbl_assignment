@@ -15,7 +15,7 @@ public class StartingContainer extends JPanel {
 
 
 
-    private static void createAndShowGUI() {
+    public static void createAndShowGUI() {
 
         //Create and set up the window.
         JFrame frame = new JFrame("Welcome Screen");
