@@ -10,6 +10,7 @@ import javax.sound.sampled.LineListener;
 public class Sound implements LineListener {
 
     boolean isPlaybackCompleted;
+    AudioInputStream audioStream;
 
     @Override
     public void update(LineEvent event) {
@@ -21,13 +22,11 @@ public class Sound implements LineListener {
         }
     }
 
-    public static void main(String[] args) {
+    public static void playMain(){
         try {
-            InputStream inputStream = Sound.class.getClassLoader().getResourceAsStream("sounds/menu-sound.wav");
-            AudioInputStream audioStream = AudioSystem.getAudioInputStream(inputStream);
-            AudioFormat audioFormat = audioStream.getFormat();
-            
-            Clip audioClip = AudioSystem.getClip();
+            InputStream menu= Sound.class.getClassLoader().getResourceAsStream("sounds/menu-sound.wav");
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(menu);
+        Clip audioClip = AudioSystem.getClip();
             Sound sound = new Sound(); 
             audioClip.addLineListener(sound);
             audioClip.open(audioStream);
@@ -44,5 +43,7 @@ public class Sound implements LineListener {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
+
+    
+}
 }
