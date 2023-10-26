@@ -52,7 +52,6 @@ class MenuPanel extends JPanel {
                     ppMain.launchBall();
                     }
                     launched=true;
-
                 }
             }
 
@@ -70,11 +69,11 @@ class MenuPanel extends JPanel {
 
     public void updateClock(){
         display = System.currentTimeMillis() - startTime;
-        if (display<1300){
+        if (display<1000){
         ip.force.setText("Force: "+ Long.toString(display));
         }
-        else if( display>1300){
-            ip.force.setText("Force: "+ 1300);
+        else if( display>1000){
+            ip.force.setText("Force: "+ 1000);
         }
     }
 

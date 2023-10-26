@@ -187,7 +187,7 @@ class PlayPanel extends JPanel  {
 
     //Handle Springs coordinates
     public void compressSpring(){
-     if(counter%12==0){
+     if(counter%10==0){
         if(springY+springcompression3<610){
         //Ball and spring move at the same speed
         springcompression+=4;
