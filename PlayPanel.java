@@ -25,7 +25,12 @@ class PlayPanel extends JPanel  {
     private static int springY=575;
     private static int springWidth=30;
     long springPressedDuration;
-    int springFluc=1;
+    int springFluc=5;
+    int springcompression=0;
+    int springcompression1=0;
+    int springcompression2=0;
+    int springcompression3=0;
+    int counter=1;
     boolean pressed;
 
     //Ball related 
@@ -112,11 +117,10 @@ class PlayPanel extends JPanel  {
 
     }
     public void drawSpring(Graphics2D g2d){
-        g2d.setStroke(new BasicStroke(10));
-        g2d.drawOval(springX,springY,100,springWidth);
-        g2d.drawOval(springX,springY+20,100,springWidth);
-        g2d.drawOval(springX,springY+40,100,springWidth);
-        g2d.drawOval(springX,springY+60,100,springWidth);
+            g2d.drawOval(springX,springY+springcompression,100,springWidth);
+            g2d.drawOval(springX,springY+20+springcompression1,100,springWidth);
+            g2d.drawOval(springX,springY+40+springcompression2,100,springWidth);
+            g2d.drawOval(springX,springY+60+springcompression3,100,springWidth);
     }
 
     public void drawTarget(Graphics2D g2d, int height){
@@ -152,8 +156,10 @@ class PlayPanel extends JPanel  {
         springX=500; 
         springY=580;
         springWidth = 30;
-        springPressedDuration = 0;
-        speedY = 0;
+        springcompression=0;
+        springcompression1=0;
+        springcompression2=0;
+        springcompression3=0;
         repaint();
     }
     //Handles scoring
@@ -181,15 +187,28 @@ class PlayPanel extends JPanel  {
 
     //Handle Springs coordinates
     public void compressSpring(){
+     if(counter%12==0){
+        if(springY+springcompression3<610){
         //Ball and spring move at the same speed
+        springcompression+=4;
+        springcompression1+=3;
+        springcompression2+=2;
+        springcompression3+=1;
         springY += springFluc; ///so they can get closer // add it getting shorter 
         if (springWidth>3){
-            springWidth-=0.01;
+            springWidth--;
         }
-        ballY =springY-70;
+        ballY =springY+springcompression-70;
         if(springFluc>1){
-            springFluc-=0.01;
+        springFluc--;
         }
+    }
+    else{
+        //maximumForce=pp.
+    }
+
+}
+    counter++;
     }
 
     public void generateTarget(){
