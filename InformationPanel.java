@@ -30,7 +30,7 @@ class InformationPanel extends JPanel{
         catch(IOException e){
             e.printStackTrace();
         }       
-        force = new JLabel("Force: 0");
+        force = new JLabel("Force: 0 N");
         scoreLabel = new JLabel("Score: 0");        
         totalScoreLabel = new JLabel("Total Score: 0");        
         currRoundLabel = new JLabel("Current Round: "+Integer.toString(currRound));

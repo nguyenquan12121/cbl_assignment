@@ -208,9 +208,6 @@ class PlayPanel extends JPanel  {
         springFluc--;
         }
     }
-    else{
-        //maximumForce=pp.
-    }
 
 }
     counter++;

@@ -44,7 +44,7 @@ class Game implements Runnable{
     public void update(){
         switch(GameState.state){
             //Start of the game
-            case IDLE:
+            case IDLE:            
                 mainButtonPanel.resetPanel();
                 pp.reset();
                 break;
