@@ -1,34 +1,19 @@
-import java.util.Random;
-
 
 class Game implements Runnable{
-    private Integer id;
     PlayPanel pp;
     MenuPanel mainButtonPanel;
-    Random random;
     boolean run = true;
     GameContainer gameContainer;
     Thread animator;
+    LeaderboardEntry entry;
     final int TICKS = 128, FPS = 144;
     private Integer totalScore;
-    private Player player;
     public Game() {
-        random = new Random();
-        id = random.nextInt(100000, 999999);
         pp = new PlayPanel();
         mainButtonPanel = new MenuPanel(pp);
         gameContainer = new GameContainer(pp, mainButtonPanel);
         gameContainer.createAndShowGUI();
         startAnimation();
-    }
-
-    public Player getPlayer(String userName){
-        player = new Player(totalScore, userName);
-        return player;
-    }
-
-    public Integer getID(){
-        return id;
     }
 
     public void startAnimation() {
@@ -45,7 +30,8 @@ class Game implements Runnable{
         totalScore = mainButtonPanel.getFinalScore();
         gameContainer.exitPanel();
         animator.interrupt();
-        EndGameContainer.createAndShowGUI(totalScore);
+        entry = new LeaderboardEntry(totalScore);
+        EndGameContainer.createAndShowGUI(totalScore, entry);
         run = false;
     }
 

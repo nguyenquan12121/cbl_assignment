@@ -8,12 +8,16 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
 
 class EndGamePanel extends JPanel{
 
-    private int highScore;
+    int highScore;
+    LeaderboardEntry entry;
 
-    public EndGamePanel(Frame frame, int score){
+    public EndGamePanel(Frame frame, int score, LeaderboardEntry entry){
+        this.setBorder(new EmptyBorder(100, 200, 100, 200));
+        this.entry = entry;
         this.highScore = score;
         JLabel scoreLabel = new JLabel();
         this.setLayout(new FlowLayout(FlowLayout.CENTER));
@@ -28,7 +32,7 @@ class EndGamePanel extends JPanel{
         this.add(play);
         this.add(exit);
         this.add(userName);
-        this.setLayout(new GridLayout(5, 1, 0,0));  
+        this.setLayout(new GridLayout(5, 1, 0,20));  
         this.setBackground(Color.red);
         play.addActionListener(e ->{
         });
