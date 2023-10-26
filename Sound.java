@@ -23,12 +23,12 @@ public class Sound implements LineListener {
 
     public static void main(String[] args) {
         try {
-            InputStream inputStream = Sound.class.getClassLoader().getResourceAsStream("sounds/spring.wav");
+            InputStream inputStream = Sound.class.getClassLoader().getResourceAsStream("sounds/menu-sound.wav");
             AudioInputStream audioStream = AudioSystem.getAudioInputStream(inputStream);
             AudioFormat audioFormat = audioStream.getFormat();
             
             Clip audioClip = AudioSystem.getClip();
-            Sound sound = new Sound(); // Create an instance of Sound
+            Sound sound = new Sound(); 
             audioClip.addLineListener(sound);
             audioClip.open(audioStream);
             audioClip.start();
