@@ -143,7 +143,12 @@ class PlayPanel extends JPanel  {
     public void launchBall(){
         ballY = 496;
         //150 seems to give the ball enough speed
+        if (springPressedDuration<1100){
         speedY = springPressedDuration/150;
+        }
+        else{
+            speedY=1100/150;
+        }
         //Return the springs to their original location
         springX=500; 
         springY=575;

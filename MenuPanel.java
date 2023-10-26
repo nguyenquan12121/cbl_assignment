@@ -69,11 +69,11 @@ class MenuPanel extends JPanel {
 
     public void updateClock(){
         display = System.currentTimeMillis() - startTime;
-        if (display<1000){
+        if (display<1100){
         ip.force.setText("Force: "+ Long.toString(display));
         }
-        else if( display>1000){
-            ip.force.setText("Force: "+ 1000);
+        else if( display>1100){
+            ip.force.setText("Force: "+ 1100);
         }
     }
 
