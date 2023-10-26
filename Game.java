@@ -41,6 +41,14 @@ class Game implements Runnable{
         pp.repaint();
     }
 
+    public void setUpEndScreen(){
+        totalScore = mainButtonPanel.getFinalScore();
+        gameContainer.exitPanel();
+        animator.interrupt();
+        EndGameContainer.createAndShowGUI(totalScore);
+        run = false;
+    }
+
     public void update(){
         switch(GameState.state){
             //Start of the game
@@ -66,13 +74,7 @@ class Game implements Runnable{
                 break;
             case END:
                 //launch EndScreen
-                totalScore = mainButtonPanel.getFinalScore();
-                gameContainer.exitPanel();
-                animator.interrupt();
-                EndGame.setHighScore(totalScore);
-                EndGame.createAndShowGUI();
-                run = false;
-
+                setUpEndScreen();
                 break;
             default:
                 break;
