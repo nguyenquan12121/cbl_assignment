@@ -19,14 +19,14 @@ class StartingPanel extends JPanel {
             e.printStackTrace();
         }
 
-        this.setBorder(new EmptyBorder(10, 320, 40, 250));
+        this.setBorder(new EmptyBorder(10, 300, 40, 250));
         JLabel jl = new JLabel("Hot Highstriker!");
-        jl.setFont(new Font(Font.DIALOG, Font.PLAIN, 30));
+        jl.setFont(new Font(Font.DIALOG, Font.BOLD, 30));
         jl.setForeground(Color.RED);
 
         JButton play = new JButton("Play!");
-        play.setIcon(new ImageIcon("control_panel.jpg")); // Set a custom icon for the button
-        play.setPreferredSize(new Dimension(20, 10)); // Set the size you desire
+        play.setIcon(new ImageIcon("control_panel.jpg")); 
+        play.setPreferredSize(new Dimension(20, 10)); 
 
         JButton leaderboard = new JButton("Show leaderboard!");
         JButton exit = new JButton("Exit!");
