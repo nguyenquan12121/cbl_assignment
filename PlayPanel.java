@@ -171,7 +171,7 @@ class PlayPanel extends JPanel  {
     public double score(int BallYFinal, int heightTarget){
         int distance=Math.abs(heightTarget-BallYFinal);
         //the Lower the distance the higher the score
-        double calcScore=1000/distance;
+        double calcScore=1000-distance;
         //int score=Math.max(SCORE_MAX,calcScore );
     return calcScore;
     }

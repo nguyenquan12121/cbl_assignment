@@ -7,7 +7,7 @@ import java.awt.GridLayout;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-
+import java.awt.Dimension;
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -26,11 +26,13 @@ class StartingPanel extends JPanel{
         catch(IOException e){
             e.printStackTrace();
         }
-        this.setBorder(new EmptyBorder(100, 500, 100, 500));
+        this.setBorder(new EmptyBorder(10, 10, 10, 10));
         JLabel jl = new JLabel("Hot Highstriker!");
         jl.setFont((new Font(Font.DIALOG, Font.PLAIN, 30)));
         jl.setForeground(Color.WHITE);
         JButton play = new JButton("Play!");
+        play.setFont(new Font("Arial", Font.BOLD, 5));
+        play.setSize(new Dimension(2, 2));
         JButton leaderboard = new JButton("Show leaderboard!");
         JButton exit = new JButton("Exit!");
         this.add(jl);
@@ -53,6 +55,6 @@ class StartingPanel extends JPanel{
     }
 
     public void drawBackground(Graphics2D g2d){
-        g2d.drawImage(backgroundImage, 0, 0,1400,1400, null);
+        g2d.drawImage(backgroundImage, 0, 0,600,600, null);
     }
 }
