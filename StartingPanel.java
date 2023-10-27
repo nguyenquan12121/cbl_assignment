@@ -1,46 +1,42 @@
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Frame;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.GridLayout;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
-import java.awt.Dimension;
 import javax.imageio.ImageIO;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import java.io.File;
 import javax.swing.border.EmptyBorder;
 
-class StartingPanel extends JPanel{
+
+class StartingPanel extends JPanel {
     private BufferedImage backgroundImage;
-    public StartingPanel(Frame frame){
+
+    public StartingPanel(Frame frame) {
         String backgroundPath = "images/menu_background.jpg";
-        try{
+        try {
             File backFile = new File(backgroundPath);
             backgroundImage = ImageIO.read(backFile);
-
-        }
-        catch(IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
-        this.setBorder(new EmptyBorder(10, 10, 10, 10));
+
+        this.setBorder(new EmptyBorder(10, 320, 40, 250));
         JLabel jl = new JLabel("Hot Highstriker!");
-        jl.setFont((new Font(Font.DIALOG, Font.PLAIN, 30)));
-        jl.setForeground(Color.WHITE);
+        jl.setFont(new Font(Font.DIALOG, Font.PLAIN, 30));
+        jl.setForeground(Color.RED);
+
         JButton play = new JButton("Play!");
-        play.setFont(new Font("Arial", Font.BOLD, 5));
-        play.setSize(new Dimension(2, 2));
+        play.setIcon(new ImageIcon("control_panel.jpg")); // Set a custom icon for the button
+        play.setPreferredSize(new Dimension(20, 10)); // Set the size you desire
+
         JButton leaderboard = new JButton("Show leaderboard!");
         JButton exit = new JButton("Exit!");
+
         this.add(jl);
         this.add(play);
         this.add(leaderboard);
         this.add(exit);
-        this.setLayout(new GridLayout(4,1,3,50));
-        play.addActionListener(e ->{
+        this.setLayout(new GridLayout(4, 1, 3, 50));
+        play.addActionListener(e -> {
             frame.dispose();
             new Game();
         });
@@ -54,7 +50,7 @@ class StartingPanel extends JPanel{
         drawBackground(g2d);
     }
 
-    public void drawBackground(Graphics2D g2d){
-        g2d.drawImage(backgroundImage, 0, 0,600,600, null);
+    public void drawBackground(Graphics2D g2d) {
+        g2d.drawImage(backgroundImage, 0, 0, 800, 600, null);
     }
 }

@@ -33,7 +33,7 @@ public class StartingContainer extends JPanel {
 
         //Create and set up the window.
         JFrame frame = new JFrame("Welcome Screen");
-        frame.setSize(600, 600);
+        frame.setSize(800, 600);
         frame.setLocation(100, 100);
         //Set up content pane
         addComponentsToPane(frame);
