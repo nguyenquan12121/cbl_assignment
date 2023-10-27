@@ -59,7 +59,7 @@ class PlayPanel extends JPanel  {
     public PlayPanel(){
         String ballPath = "images/pixel_ball.png";
         String thermoPath = "images/highstriker.png";
-        String backgroundPath = "images/menu_background.jpg";
+        String backgroundPath = "images/game_background1.jpg";
         try{
             File ballFile = new File(ballPath);
             ballImage = ImageIO.read(ballFile);
@@ -135,7 +135,7 @@ class PlayPanel extends JPanel  {
     }
 
     public void drawBackground(Graphics2D g2d){
-        g2d.drawImage(backgroundImage, 0, 0,1400,1400, null);
+        g2d.drawImage(backgroundImage, 0, 0,850,800, null);
     }
     
 

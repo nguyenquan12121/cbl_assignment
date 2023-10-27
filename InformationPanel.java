@@ -21,7 +21,7 @@ class InformationPanel extends JPanel{
     }
 
     public void loadGraphics(){
-        String backgroundPath = "images/control_panel.jpg";
+        String backgroundPath = "images/background_score.jpg";
         try{
             File backFile = new File(backgroundPath);
             backgroundImage = ImageIO.read(backFile);
