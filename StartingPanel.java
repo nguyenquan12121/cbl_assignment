@@ -42,6 +42,12 @@ class StartingPanel extends JPanel{
             frame.dispose();
             new Game();
         });
+
+        leaderboard.addActionListener(e->{
+            frame.dispose();
+            LeaderboardContainer.createAndShowGUI();
+        });
+
         exit.addActionListener(e -> System.exit(-1));
     }
 

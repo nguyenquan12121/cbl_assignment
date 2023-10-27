@@ -1,3 +1,11 @@
+import java.util.ArrayList;
+import java.util.List;
+
+import entity.LeaderboardEntry;
+
+import utils.ReadData; 
+
+
 class Game implements Runnable{
     PlayPanel pp;
     MenuPanel mainButtonPanel;
@@ -5,13 +13,16 @@ class Game implements Runnable{
     GameContainer gameContainer;
     Thread animator;
     LeaderboardEntry entry;
+    List<LeaderboardEntry> list;
     final int TICKS = 128, FPS = 144;
+    String filePath = "leaderboard.txt";
     private Integer totalScore;
     public Game() {
         pp = new PlayPanel();
         mainButtonPanel = new MenuPanel(pp);
         gameContainer = new GameContainer(pp, mainButtonPanel);
         gameContainer.createAndShowGUI();
+        GameState.state = GameState.IDLE;
         startAnimation();
     }
 
@@ -30,7 +41,8 @@ class Game implements Runnable{
         gameContainer.exitPanel();
         animator.interrupt();
         entry = new LeaderboardEntry(totalScore);
-        EndGameContainer.createAndShowGUI(totalScore, entry);
+        EndGameContainer.initPanel(entry);
+        EndGameContainer.createAndShowGUI();
         run = false;
     }
 
@@ -68,7 +80,7 @@ class Game implements Runnable{
 
 
     @Override
-    public void run() {
+    public void run(){
         long beforeTime, currTime;
         double timePerTick = 1000000000/TICKS;
         double timePerFrame = 1000000000/FPS;

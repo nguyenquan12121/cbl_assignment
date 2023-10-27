@@ -1,34 +1,41 @@
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
 
 import entity.LeaderboardEntry;
 
-class EndGameLeaderboardPanel extends JPanel{
+class LeaderboardPanel extends JPanel{
     List<LeaderboardEntry> recordList = new ArrayList<>();
     JTable jTable;
 
-    public EndGameLeaderboardPanel(){
+    public LeaderboardPanel(JFrame frame){
         //rows and columns
-        this.setLayout(new GridLayout(1, 1));
+        JLabel label = new JLabel("LEADERBOARD");
+        JButton back = new JButton("BACK");
+        // this.setLayout(new GridLayout(1, 1);
         this.setBorder(new EmptyBorder(100, 50, 100, 50));
         this.setBackground(Color.RED);
+        this.add(label);
+        this.add(back);
+        back.addActionListener(e->{
+            frame.dispose();
+            StartingContainer.createAndShowGUI();
+        });
 
     }
     //Game calls EndGameContainer which will then call this method to get the list
     public void addLeaderboard(List<LeaderboardEntry> list){
         this.recordList = list;
-
     }
 
     public void initTable(){
@@ -36,20 +43,6 @@ class EndGameLeaderboardPanel extends JPanel{
         setUpTableData();
         jTable.setRowHeight(40);
         this.add(jTable);        
-    }
-
-    //Add a new entry to the list and re
-    public void updateRecord(LeaderboardEntry entry){
-        this.recordList.add(entry);
-        Collections.sort(recordList, new Comparator<LeaderboardEntry>() {
-	    public int compare(LeaderboardEntry entryOne,
-                            LeaderboardEntry entryTwo) {
-	    	//ascending order
-	    	return entryTwo.score - entryOne.score;
-        }            
-        });
-        refreshTable();
-        initTable();
     }
 
     //init jtable

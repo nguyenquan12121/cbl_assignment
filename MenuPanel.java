@@ -67,6 +67,7 @@ class MenuPanel extends JPanel {
         int roundNumber = Integer.parseInt(info[2]);
         if (roundNumber ==3){
             GameState.state = GameState.END;
+            
         }
         else{
             ip.updateRound();
