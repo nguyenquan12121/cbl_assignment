@@ -33,13 +33,12 @@ public class StartingContainer extends JPanel {
 
         //Create and set up the window.
         JFrame frame = new JFrame("Welcome Screen");
-        frame.setSize(1280, 720);
-        frame.setLocationRelativeTo(null);
+        frame.setSize(800, 600);
+        frame.setLocation(100, 100);
         //Set up content pane
         addComponentsToPane(frame);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
-        frame.pack();
         frame.setVisible(true);
     }
 
@@ -53,4 +52,3 @@ public class StartingContainer extends JPanel {
         });
     }
 }
-

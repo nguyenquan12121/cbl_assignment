@@ -10,6 +10,7 @@ class MenuPanel extends JPanel {
     PlayPanel ppMain;
     long startTime = -1l;
     Double secondsLeft;
+    boolean launched=false;
     public MenuPanel(PlayPanel pp){
         this.ppMain = pp;
         ip = new InformationPanel();
@@ -36,16 +37,21 @@ class MenuPanel extends JPanel {
 
                 @Override
                 public void mousePressed(java.awt.event.MouseEvent arg0) {
+                     if(!launched){
                     GameState.state = GameState.PREPARE;
                     startTime = System.currentTimeMillis();
+                     }
+                    
                 }
 
                 @Override
                 public void mouseReleased(java.awt.event.MouseEvent arg0) {
+                    if(!launched){
                     GameState.state = GameState.LAUNCHED;
                     ppMain.setSpringTimer(false, display);
                     ppMain.launchBall();
-
+                    }
+                    launched=true;
                 }
             }
 
@@ -53,13 +59,22 @@ class MenuPanel extends JPanel {
     }
 
     public void resetPanel(){
-        ip.force.setText("Force: 0");
+        ip.force.setText("Force: 0 N");
         ip.scoreLabel.setText("Score: 0");
+        endLaunch();
+    }
+    public void endLaunch(){
+        launched=false;
     }
 
     public void updateClock(){
         display = System.currentTimeMillis() - startTime;
-        ip.force.setText("Force: "+ Long.toString(display));
+        if (display<1100){
+        ip.force.setText("Force: "+ Long.toString(display/10)+ "N");
+        }
+        else if( display>1100){
+            ip.force.setText("Force: "+ 110 + "N");
+        }
     }
 
     public void updateTransitionTime(){
