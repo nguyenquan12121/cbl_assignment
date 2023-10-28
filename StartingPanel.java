@@ -5,6 +5,11 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import java.io.File;
 import javax.swing.border.EmptyBorder;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 
 
 class StartingPanel extends JPanel {
@@ -19,23 +24,41 @@ class StartingPanel extends JPanel {
             e.printStackTrace();
         }
 
-        this.setBorder(new EmptyBorder(10, 300, 40, 250));
+        //this.setBorder(new EmptyBorder(10, 300, 40, 250));
         JLabel jl = new JLabel("Hot Highstriker!");
+        jl.setBorder(new EmptyBorder(10, 200, 40, 250));
         jl.setFont(new Font(Font.DIALOG, Font.BOLD, 30));
         jl.setForeground(Color.RED);
 
-        JButton play = new JButton("Play!");
-        play.setIcon(new ImageIcon("control_panel.jpg")); 
-        play.setPreferredSize(new Dimension(20, 10)); 
+        JButton play = new JButton();
+        
+       play.setIcon(new ImageIcon("images/Play_Button3.png")); 
+        play.setPreferredSize(new Dimension(130, 50));
+        play.setBorder(null);
+        play.setOpaque(false);
+        play.setContentAreaFilled(false);
+        play.setBorderPainted(false);
 
-        JButton leaderboard = new JButton("Show leaderboard!");
+        JButton leaderboard = new JButton();
+        leaderboard.setIcon(new ImageIcon("images/Leaderboard.png")); 
+        leaderboard.setPreferredSize(new Dimension(130, 50));
+        leaderboard.setBorder(null);
+        leaderboard.setOpaque(false);
+        leaderboard.setContentAreaFilled(false);
+        leaderboard.setBorderPainted(false);
         JButton exit = new JButton("Exit!");
+        exit.setIcon(new ImageIcon("images/Exit_Button.png")); 
+        exit.setPreferredSize(new Dimension(130, 50));
+        exit.setBorder(null);
+        exit.setOpaque(false);
+        exit.setContentAreaFilled(false);
+        exit.setBorderPainted(false);
 
         this.add(jl);
         this.add(play);
         this.add(leaderboard);
         this.add(exit);
-        this.setLayout(new GridLayout(4, 1, 3, 50));
+       //this.setLayout(new GridLayout(4, 1, 3, 50));
         play.addActionListener(e -> {
             frame.dispose();
             new Game();
