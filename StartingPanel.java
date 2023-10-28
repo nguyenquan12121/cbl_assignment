@@ -27,14 +27,12 @@ class StartingPanel extends JPanel {
         //this.setBorder(new EmptyBorder(10, 300, 40, 250));
         ImageIcon imageIcon = new ImageIcon("images/HighStriker_Logo.png");
         JLabel jl = new JLabel(imageIcon);
-        jl.setBorder(new EmptyBorder(10, 300, 40, 250));
-        jl.setFont(new Font(Font.DIALOG, Font.BOLD, 30));
-        jl.setForeground(Color.RED);
+        jl.setBorder(new EmptyBorder(10, 280, 40, 250));
 
         JButton play = new JButton();
         
        play.setIcon(new ImageIcon("images/Play_Button3.png")); 
-        play.setPreferredSize(new Dimension(130, 50));
+        play.setPreferredSize(new Dimension(120, 42));
         play.setBorder(null);
         play.setOpaque(false);
         play.setContentAreaFilled(false);
@@ -42,14 +40,14 @@ class StartingPanel extends JPanel {
 
         JButton leaderboard = new JButton();
         leaderboard.setIcon(new ImageIcon("images/Leaderboard.png")); 
-        leaderboard.setPreferredSize(new Dimension(130, 50));
+        leaderboard.setPreferredSize(new Dimension(130, 42));
         leaderboard.setBorder(null);
         leaderboard.setOpaque(false);
         leaderboard.setContentAreaFilled(false);
         leaderboard.setBorderPainted(false);
-        JButton exit = new JButton("Exit!");
+        JButton exit = new JButton();
         exit.setIcon(new ImageIcon("images/Exit_Button.png")); 
-        exit.setPreferredSize(new Dimension(130, 50));
+        exit.setPreferredSize(new Dimension(143, 42));
         exit.setBorder(null);
         exit.setOpaque(false);
         exit.setContentAreaFilled(false);
@@ -59,7 +57,7 @@ class StartingPanel extends JPanel {
         this.add(play);
         this.add(leaderboard);
         this.add(exit);
-       //this.setLayout(new GridLayout(4, 1, 3, 50));
+       //this.setLayout(new GridLayout(4, 1, 1, 1));
         play.addActionListener(e -> {
             frame.dispose();
             new Game();
