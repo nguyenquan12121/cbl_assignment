@@ -65,7 +65,6 @@ class Game implements Runnable{
                 break;
             //I wanted to add some delay here
             case TRANSITION:
-            System.out.println(startedTransition);
                 if (!startedTransition){
                     startTime = System.nanoTime();
                     startedTransition = true;
