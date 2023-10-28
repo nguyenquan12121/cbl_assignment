@@ -62,16 +62,29 @@ class MenuPanel extends JPanel {
         ip.force.setText("Force: "+ Long.toString(display));
     }
 
-    public void updateTransitionTime(){
+    public void updateTransitionTime(Long startTime, Long currTime){
         String[] info = ip.currRoundLabel.getText().split(" ");
         int roundNumber = Integer.parseInt(info[2]);
         if (roundNumber ==3){
-            GameState.state = GameState.END;
+            if (ip.isBreakTime(startTime, currTime)){
+                ip.delayTillEndScreen(startTime, currTime);
+            }
+            else{
+                GameState.state = GameState.END;
+            }
             
         }
         else{
-            ip.updateRound();
-            GameState.state = GameState.IDLE;
+            if (ip.isBreakTime(startTime, currTime)){
+                ip.updateBreakStatus(startTime, currTime);
+            }
+            else{
+                ip.updateRound();
+                ppMain.generateTarget();
+                ip.removeBreakStatus();
+                GameState.state = GameState.IDLE;
+
+            }
         }
     }
 

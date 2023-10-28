@@ -1,9 +1,7 @@
-import java.util.ArrayList;
 import java.util.List;
 
 import entity.LeaderboardEntry;
 
-import utils.ReadData; 
 
 
 class Game implements Runnable{
@@ -17,6 +15,8 @@ class Game implements Runnable{
     final int TICKS = 128, FPS = 144;
     String filePath = "leaderboard.txt";
     private Integer totalScore;
+    Long startTime;
+    boolean startedTransition;
     public Game() {
         pp = new PlayPanel();
         mainButtonPanel = new MenuPanel(pp);
@@ -46,10 +46,11 @@ class Game implements Runnable{
         run = false;
     }
 
-    public void update(){
+    public void update(Long currTime){
         switch(GameState.state){
             //Start of the game
             case IDLE:
+                startedTransition = false;
                 mainButtonPanel.resetPanel();
                 pp.reset();
                 break;
@@ -64,10 +65,12 @@ class Game implements Runnable{
                 break;
             //I wanted to add some delay here
             case TRANSITION:
-            //Update transition handles rounds as well.
-            //If the current round is 3 then it switches state to END
-                mainButtonPanel.updateTransitionTime();
-                pp.generateTarget();
+            System.out.println(startedTransition);
+                if (!startedTransition){
+                    startTime = System.nanoTime();
+                    startedTransition = true;
+                }
+                mainButtonPanel.updateTransitionTime(startTime, currTime);
                 break;
             case END:
                 //launch EndScreen
@@ -94,7 +97,7 @@ class Game implements Runnable{
             beforeTime = currTime;
             if (deltaT >=1){
                 //deltaT might be 1.02 since there are inheriant lags and the game should only be update when delta is 1 so decrement by 1 and the 0.02 delay is accounted for in the next tick
-                update();
+                update(currTime);
                 deltaT--;
                 
             }
