@@ -63,7 +63,7 @@ class Game implements Runnable{
             case LAUNCHED:
                 pp.updateBallLaunch();
                 break;
-            //I wanted to add some delay here
+            //2 seconds delay after each round
             case TRANSITION:
                 if (!startedTransition){
                     startTime = System.nanoTime();
