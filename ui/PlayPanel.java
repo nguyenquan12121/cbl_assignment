@@ -1,3 +1,4 @@
+package ui;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -14,7 +15,9 @@ import java.util.Random;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
-class PlayPanel extends JPanel  {
+import main.GameState;
+
+public class PlayPanel extends JPanel  {
 
     InformationPanel ip;
 
@@ -78,10 +81,7 @@ class PlayPanel extends JPanel  {
     public void addInfoPanel(InformationPanel ip){
         this.ip = ip;
     }
-    //Called by stop button to freeze animation
-    public void setTimer(boolean status, long duration){
-            // animator.interrupt();
-    }
+    
     //Method is called by ActionListener to start the spring compress animation
     //Method is called by MouseRelease to end the spring compress animation
     public void setSpringTimer(boolean status, long duration){

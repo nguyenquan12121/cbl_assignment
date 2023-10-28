@@ -1,34 +1,34 @@
-import java.util.Random;
+package main;
+import java.util.List;
+
+import entity.LeaderboardEntry;
+import ui.EndGameContainer;
+import ui.GameContainer;
+import ui.MenuPanel;
+import ui.PlayPanel;
 
 
-class Game implements Runnable{
-    private Integer id;
+
+public class Game implements Runnable{
     PlayPanel pp;
     MenuPanel mainButtonPanel;
-    Random random;
     boolean run = true;
     GameContainer gameContainer;
     Thread animator;
+    LeaderboardEntry entry;
+    List<LeaderboardEntry> list;
     final int TICKS = 128, FPS = 144;
+    String filePath = "leaderboard.txt";
     private Integer totalScore;
-    private Player player;
+    Long startTime;
+    boolean startedTransition;
     public Game() {
-        random = new Random();
-        id = random.nextInt(100000, 999999);
         pp = new PlayPanel();
         mainButtonPanel = new MenuPanel(pp);
         gameContainer = new GameContainer(pp, mainButtonPanel);
         gameContainer.createAndShowGUI();
+        GameState.state = GameState.IDLE;
         startAnimation();
-    }
-
-    public Player getPlayer(String userName){
-        player = new Player(totalScore, userName);
-        return player;
-    }
-
-    public Integer getID(){
-        return id;
     }
 
     public void startAnimation() {
@@ -41,10 +41,21 @@ class Game implements Runnable{
         pp.repaint();
     }
 
-    public void update(){
+    public void setUpEndScreen(){
+        totalScore = mainButtonPanel.getFinalScore();
+        gameContainer.exitPanel();
+        animator.interrupt();
+        entry = new LeaderboardEntry(totalScore);
+        EndGameContainer.initPanel(entry);
+        EndGameContainer.createAndShowGUI();
+        run = false;
+    }
+
+    public void update(Long currTime){
         switch(GameState.state){
             //Start of the game
-            case IDLE:            
+            case IDLE:
+                startedTransition = false;
                 mainButtonPanel.resetPanel();
                 pp.reset();
                 break;
@@ -57,22 +68,17 @@ class Game implements Runnable{
             case LAUNCHED:
                 pp.updateBallLaunch();
                 break;
-            //I wanted to add some delay here
+            //2 seconds delay after each round
             case TRANSITION:
-            //Update transition handles rounds as well.
-            //If the current round is 3 then it switches state to END
-                mainButtonPanel.updateTransitionTime();
-                pp.generateTarget();
+                if (!startedTransition){
+                    startTime = System.nanoTime();
+                    startedTransition = true;
+                }
+                mainButtonPanel.updateTransitionTime(startTime, currTime);
                 break;
             case END:
                 //launch EndScreen
-                totalScore = mainButtonPanel.getFinalScore();
-                gameContainer.exitPanel();
-                animator.interrupt();
-                EndGame.setHighScore(totalScore);
-                EndGame.createAndShowGUI();
-                run = false;
-
+                setUpEndScreen();
                 break;
             default:
                 break;
@@ -81,7 +87,7 @@ class Game implements Runnable{
 
 
     @Override
-    public void run() {
+    public void run(){
         long beforeTime, currTime;
         double timePerTick = 1000000000/TICKS;
         double timePerFrame = 1000000000/FPS;
@@ -95,7 +101,7 @@ class Game implements Runnable{
             beforeTime = currTime;
             if (deltaT >=1){
                 //deltaT might be 1.02 since there are inheriant lags and the game should only be update when delta is 1 so decrement by 1 and the 0.02 delay is accounted for in the next tick
-                update();
+                update(currTime);
                 deltaT--;
                 
             }

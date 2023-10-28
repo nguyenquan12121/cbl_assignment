@@ -1,8 +1,5 @@
+package ui;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -11,16 +8,6 @@ import javax.swing.JPanel;
 public class StartingContainer extends JPanel {
     BufferedImage backgroundImage;
     public StartingContainer(){
-        String backgroundPath = "images/menu_background.jpg";
-        try{
-            File backFile = new File(backgroundPath);
-            backgroundImage = ImageIO.read(backFile);
-
-        }
-        catch(IOException e){
-            e.printStackTrace();
-        }
-
     }
     public static void addComponentsToPane (JFrame frame)  {
         StartingPanel sp = new StartingPanel(frame);
@@ -29,7 +16,7 @@ public class StartingContainer extends JPanel {
 
 
 
-    private static void createAndShowGUI() {
+    public static void createAndShowGUI() {
 
         //Create and set up the window.
         JFrame frame = new JFrame("Welcome Screen");

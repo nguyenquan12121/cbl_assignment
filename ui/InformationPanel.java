@@ -1,3 +1,4 @@
+package ui;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -48,7 +49,9 @@ class InformationPanel extends JPanel{
         currRoundLabel.setHorizontalAlignment(JLabel.CENTER);        
         currRoundLabel.setForeground(Color.WHITE);
         currRoundLabel.setFont(new Font(Font.DIALOG, Font.PLAIN, 18));        
-
+        roundInfo.setHorizontalAlignment(JLabel.CENTER);        
+        roundInfo.setForeground(Color.WHITE);
+        roundInfo.setFont(new Font(Font.DIALOG, Font.PLAIN, 11));
         this.setLayout(new GridLayout(5, 1, 0,-300));  
         this.add(currRoundLabel);
         this.add(totalScoreLabel);
@@ -81,5 +84,25 @@ class InformationPanel extends JPanel{
     public void updateRound(){
         this.currRound++;
         this.currRoundLabel.setText("Current Round: "+ currRound);
+    }
+
+    public boolean isBreakTime(Long startTime, Long endTime){
+        return ((endTime-startTime)/1000000<=2000);
+    }
+
+    public void updateBreakStatus(Long startTime, Long endTime){
+        int timeLeftD = Math.round((endTime-startTime)/1000000000);
+        Integer timeLeft = 2 - timeLeftD;
+        this.roundInfo.setText("Next round starts in: "+timeLeft);
+    }
+
+    public void removeBreakStatus(){
+        this.roundInfo.setText("");
+    }
+
+    public void delayTillEndScreen(Long startTime, Long endTime){
+        int timeLeftD = Math.round((endTime-startTime)/1000000000);
+        Integer timeLeft = 2 - timeLeftD;
+        this.roundInfo.setText("Game finishes in: "+timeLeft);
     }
 }

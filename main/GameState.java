@@ -1,3 +1,4 @@
+package main;
 public enum GameState{
     IDLE,
     PREPARE,

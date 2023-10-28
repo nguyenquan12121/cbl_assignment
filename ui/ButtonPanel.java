@@ -1,5 +1,4 @@
-import java.awt.GridLayout;
-
+package ui;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 

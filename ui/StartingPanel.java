@@ -1,3 +1,4 @@
+package ui;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -5,11 +6,8 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import java.io.File;
 import javax.swing.border.EmptyBorder;
-import javax.swing.*;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import javax.imageio.ImageIO;
+
+import main.Game;
 
 
 class StartingPanel extends JPanel {
@@ -62,6 +60,12 @@ class StartingPanel extends JPanel {
             frame.dispose();
             new Game();
         });
+
+        leaderboard.addActionListener(e->{
+            frame.dispose();
+            LeaderboardContainer.createAndShowGUI();
+        });
+
         exit.addActionListener(e -> System.exit(-1));
     }
 

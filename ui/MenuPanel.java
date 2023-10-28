@@ -1,8 +1,11 @@
+package ui;
 import java.awt.BorderLayout;
 import java.awt.event.MouseListener;
 import javax.swing.JPanel;
 
-class MenuPanel extends JPanel {
+import main.GameState;
+
+public class MenuPanel extends JPanel {
     ButtonPanel bp;
     InformationPanel ip;
     int score=0;
@@ -77,15 +80,29 @@ class MenuPanel extends JPanel {
         }
     }
 
-    public void updateTransitionTime(){
+    public void updateTransitionTime(Long startTime, Long currTime){
         String[] info = ip.currRoundLabel.getText().split(" ");
         int roundNumber = Integer.parseInt(info[2]);
         if (roundNumber ==3){
-            GameState.state = GameState.END;
+            if (ip.isBreakTime(startTime, currTime)){
+                ip.delayTillEndScreen(startTime, currTime);
+            }
+            else{
+                GameState.state = GameState.END;
+            }
+            
         }
         else{
-            ip.updateRound();
-            GameState.state = GameState.IDLE;
+            if (ip.isBreakTime(startTime, currTime)){
+                ip.updateBreakStatus(startTime, currTime);
+            }
+            else{
+                ip.updateRound();
+                ppMain.generateTarget();
+                ip.removeBreakStatus();
+                GameState.state = GameState.IDLE;
+
+            }
         }
     }
 
