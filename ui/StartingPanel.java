@@ -29,7 +29,7 @@ class StartingPanel extends JPanel {
 
         JButton play = new JButton();
         
-       play.setIcon(new ImageIcon("images/Play_Button3.png")); 
+        play.setIcon(new ImageIcon("images/Play_Button3.png")); 
         play.setPreferredSize(new Dimension(120, 42));
         play.setBorder(null);
         play.setOpaque(false);

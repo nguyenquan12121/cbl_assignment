@@ -10,7 +10,6 @@ import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
 
 import entity.LeaderboardEntry;
@@ -23,7 +22,7 @@ class EndGameLeaderboardPanel extends JPanel{
         //rows and columns
         this.setLayout(new GridLayout(1, 1));
         this.setBorder(new EmptyBorder(100, 50, 100, 50));
-        this.setBackground(Color.RED);
+        this.setOpaque(false);
 
     }
     //Game calls EndGameContainer which will then call this method to get the list
