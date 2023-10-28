@@ -25,8 +25,9 @@ class StartingPanel extends JPanel {
         }
 
         //this.setBorder(new EmptyBorder(10, 300, 40, 250));
-        JLabel jl = new JLabel("Hot Highstriker!");
-        jl.setBorder(new EmptyBorder(10, 200, 40, 250));
+        ImageIcon imageIcon = new ImageIcon("images/HighStriker_Logo.png");
+        JLabel jl = new JLabel(imageIcon);
+        jl.setBorder(new EmptyBorder(10, 300, 40, 250));
         jl.setFont(new Font(Font.DIALOG, Font.BOLD, 30));
         jl.setForeground(Color.RED);
 
