@@ -26,7 +26,7 @@ public class GameContainer {
 
         //Create and set up the window.
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setPreferredSize(new Dimension(1000, 900));
+        frame.setPreferredSize(new Dimension(1000, 820));
         frame.setLocation(00, 00);
         this.addComponentsToPane(frame);
         frame.pack();
