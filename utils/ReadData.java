@@ -1,6 +1,9 @@
 package utils;
 
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -24,6 +27,13 @@ public class ReadData{
             scanner = new Scanner(new FileInputStream(filePath));        
         }
         catch(Exception e){
+            try {
+                FileWriter fileWriter = new FileWriter(new File(filePath));
+                fileWriter.write("");
+                return new ArrayList<>();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
             e.printStackTrace();
         }
         while(scanner.hasNext()){

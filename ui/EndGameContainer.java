@@ -12,7 +12,7 @@ public class EndGameContainer{
         static String filePath = "leaderboard.txt";
 
         public static void initPanel(LeaderboardEntry entry){
-            List<LeaderboardEntry> list = ReadData.readFromFile(filePath);            
+            List<LeaderboardEntry> list = ReadData.readFromFile(filePath);
             endGameLeaderboardPanel = new EndGameLeaderboardPanel();
             endGameLeaderboardPanel.addLeaderboard(list);
             endGameLeaderboardPanel.initTable();
