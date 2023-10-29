@@ -62,7 +62,7 @@ public class MenuPanel extends JPanel {
     }
 
     public void resetPanel(){
-        ip.force.setText("Force: 0 N");
+        ip.force.setText("Force: 0%");
         ip.scoreLabel.setText("Score: 0");
         endLaunch();
     }
@@ -73,10 +73,10 @@ public class MenuPanel extends JPanel {
     public void updateClock(){
         display = System.currentTimeMillis() - startTime;
         if (display<1100){
-        ip.force.setText("Force: "+ Long.toString(display/10)+ "N");
+        ip.force.setText("Force: "+ Long.toString((display/11))+ "%");
         }
         else if( display>1100){
-            ip.force.setText("Force: "+ 110 + "N");
+            ip.force.setText("Force: "+ 100 + "%");
         }
     }
 

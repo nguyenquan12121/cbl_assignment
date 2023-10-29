@@ -93,6 +93,7 @@ class InformationPanel extends JPanel{
     public void updateBreakStatus(Long startTime, Long endTime){
         int timeLeftD = Math.round((endTime-startTime)/1000000000);
         Integer timeLeft = 2 - timeLeftD;
+        this.roundInfo.setForeground(Color.GREEN);
         this.roundInfo.setText("Next round starts in: "+timeLeft);
     }
 
@@ -103,6 +104,7 @@ class InformationPanel extends JPanel{
     public void delayTillEndScreen(Long startTime, Long endTime){
         int timeLeftD = Math.round((endTime-startTime)/1000000000);
         Integer timeLeft = 2 - timeLeftD;
+        this.roundInfo.setForeground(Color.GREEN);
         this.roundInfo.setText("Game finishes in: "+timeLeft);
     }
 }
