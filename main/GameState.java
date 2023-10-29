@@ -1,5 +1,9 @@
 package main;
-public enum GameState{
+
+/** Enums for various states of the game.
+* 
+*/
+public enum GameState {
     IDLE,
     PREPARE,
     LAUNCHED,

@@ -1,17 +1,17 @@
 package ui;
+
+import entity.LeaderboardEntry;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.GridLayout;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -24,14 +24,17 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
-import entity.LeaderboardEntry;
 
-class LeaderboardPanel extends JPanel{
+
+class LeaderboardPanel extends JPanel {
     private BufferedImage backgroundImage;
     List<LeaderboardEntry> recordList = new ArrayList<>();
     JTable jTable;
+    /** Constructor.
+    * 
+    */
 
-    public LeaderboardPanel(JFrame frame){
+    public LeaderboardPanel(JFrame frame) {
         String backgroundPath = "images/menu_background.jpg";
         try {
             File backFile = new File(backgroundPath);
@@ -55,19 +58,26 @@ class LeaderboardPanel extends JPanel{
         this.setBackground(Color.RED);
         this.add(label, BorderLayout.NORTH);
         this.add(back, BorderLayout.SOUTH);
-        back.addActionListener(e->{
+        back.addActionListener(e -> {
             frame.dispose();
             StartingContainer.createAndShowGUI();
         });
         this.setPreferredSize(new Dimension(1000, 720));
 
     }
-    //Game calls EndGameContainer which will then call this method to get the list
-    public void addLeaderboard(List<LeaderboardEntry> list){
+
+    /** Game calls EndGameContainer which will then call this method 
+     * to get the list.
+    * 
+    */    
+    public void addLeaderboard(List<LeaderboardEntry> list) {
         this.recordList = list;
     }
 
-    public void initTable(){
+    /** Init table.
+    * 
+    */
+    public void initTable() {
         jTable = getJTable();
         setUpTableData();
         jTable.setRowHeight(40);
@@ -90,10 +100,12 @@ class LeaderboardPanel extends JPanel{
         return jTable;
     }
 
-    //populate table with data
+    /** Populate table with data.
+    * 
+    */
     public void setUpTableData() {
         DefaultTableModel tableModel = (DefaultTableModel) jTable.getModel();
-        for (int i = 0; i <recordList.size(); i++) {
+        for (int i = 0; i < recordList.size(); i++) {
             String[] data = new String[3];
             data[0] = recordList.get(i).date.toString();
             data[1] = recordList.get(i).userName;
@@ -103,10 +115,14 @@ class LeaderboardPanel extends JPanel{
         jTable.setModel(tableModel);
     }
 
-    public void refreshTable(){
+    /** Refresh table.
+    * 
+    */
+    public void refreshTable() {
         DefaultTableModel tableModel = (DefaultTableModel) jTable.getModel();
         tableModel.setRowCount(0);
     }
+
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);

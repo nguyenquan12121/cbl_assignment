@@ -6,12 +6,18 @@ import java.awt.GridLayout;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
-public class EndPanel extends JPanel{
+/** EndPanel class.
+* 
+*/
+public class EndPanel extends JPanel {
     BufferedImage backgroundImage;
+
+    /** Constructor.
+    * 
+    */
     public EndPanel(EndGamePanel egp, EndGameLeaderboardPanel eglp) {
         String backgroundPath = "images/background_score.jpg";
         try {
@@ -24,6 +30,7 @@ public class EndPanel extends JPanel{
         this.add(egp);
         this.add(eglp);
     }
+    
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);

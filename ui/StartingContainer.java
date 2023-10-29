@@ -1,21 +1,33 @@
 package ui;
+
 import java.awt.image.BufferedImage;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 
-
+/**Frame for staring screen.
+* 
+*/
 public class StartingContainer extends JPanel {
     BufferedImage backgroundImage;
-    public StartingContainer(){
+
+    /**Handles scoring.
+    * 
+    */    
+    public StartingContainer() {
     }
-    public static void addComponentsToPane (JFrame frame)  {
+
+    /**Add panel to frame.
+    * 
+    */    
+    public static void addComponentsToPane(JFrame frame) {
         StartingPanel sp = new StartingPanel(frame);
         frame.add(sp);
     }
 
-
-
+    /**Displays frame.
+    * 
+    */
     public static void createAndShowGUI() {
 
         //Create and set up the window.
@@ -25,7 +37,6 @@ public class StartingContainer extends JPanel {
         //Set up content pane
         addComponentsToPane(frame);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        
         frame.setVisible(true);
     }
 }

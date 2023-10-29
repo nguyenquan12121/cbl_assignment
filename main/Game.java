@@ -1,15 +1,17 @@
 package main;
-import java.util.List;
 
 import entity.LeaderboardEntry;
+import java.util.List;
 import ui.EndGameContainer;
 import ui.GameContainer;
 import ui.MenuPanel;
 import ui.PlayPanel;
 
 
-
-public class Game implements Runnable{
+/** Main Game Class, handles game state, rendering and updating.
+ * 
+ */
+public class Game implements Runnable {
     PlayPanel pp;
     MenuPanel mainButtonPanel;
     boolean run = true;
@@ -17,11 +19,16 @@ public class Game implements Runnable{
     Thread animator;
     LeaderboardEntry entry;
     List<LeaderboardEntry> list;
-    final int TICKS = 128, FPS = 144;
+    final int ticks = 128;
+    final int fps = 144;
     String filePath = "leaderboard.txt";
     private Integer totalScore;
     Long startTime;
     boolean startedTransition;
+    
+    /** Constructor for the game class.
+     * 
+     */    
     public Game() {
         pp = new PlayPanel();
         mainButtonPanel = new MenuPanel(pp);
@@ -31,17 +38,26 @@ public class Game implements Runnable{
         startAnimation();
     }
 
+    /** Start the main thread to handle updating and rendering.
+    * 
+    */
     public void startAnimation() {
         animator = new Thread(this);
         animator.start();
     }
 
-    public void render(){
+    /** Handles painting of all the game's objects.
+    * 
+    */
+    public void render() {
         mainButtonPanel.repaint();
         pp.repaint();
     }
 
-    public void setUpEndScreen(){
+    /** Used to close the current frame, read data from the text file and set the frame
+     * for the end game screen. 
+    */
+    public void setUpEndScreen() {
         totalScore = mainButtonPanel.getFinalScore();
         gameContainer.exitPanel();
         animator.interrupt();
@@ -51,8 +67,11 @@ public class Game implements Runnable{
         run = false;
     }
 
-    public void update(Long currTime){
-        switch(GameState.state){
+    /** Handles updating coordinated of all the game's objects.
+    * 
+    */
+    public void update(Long currTime) {
+        switch (GameState.state) {
             //Start of the game
             case IDLE:
                 startedTransition = false;
@@ -70,7 +89,7 @@ public class Game implements Runnable{
                 break;
             //2 seconds delay after each round
             case TRANSITION:
-                if (!startedTransition){
+                if (!startedTransition) {
                     startTime = System.nanoTime();
                     startedTransition = true;
                 }
@@ -87,25 +106,25 @@ public class Game implements Runnable{
 
 
     @Override
-    public void run(){
-        long beforeTime, currTime;
-        double timePerTick = 1000000000/TICKS;
-        double timePerFrame = 1000000000/FPS;
-        //delta tick rate to deal with lags
-        double deltaT = 0, deltaF = 0;
+    public void run() {
+        long beforeTime;
+        long currTime;
+        double timePerTick = 1000000000 / ticks;
+        double timePerFrame = 1000000000 / fps;
+        double deltaT = 0;
+        double deltaF = 0;
         beforeTime = System.nanoTime();
         while (run) {
             currTime = System.nanoTime();
-            deltaT += (currTime - beforeTime)/timePerTick;
-            deltaF += (currTime - beforeTime)/timePerFrame;
+            deltaT += (currTime - beforeTime) / timePerTick;
+            deltaF += (currTime - beforeTime) / timePerFrame;
             beforeTime = currTime;
-            if (deltaT >=1){
-                //deltaT might be 1.02 since there are inheriant lags and the game should only be update when delta is 1 so decrement by 1 and the 0.02 delay is accounted for in the next tick
+            if (deltaT >= 1) {
                 update(currTime);
                 deltaT--;
                 
             }
-            if (deltaF >=1){
+            if (deltaF >= 1) {
                 render();
                 deltaF--;
             }

@@ -1,5 +1,6 @@
 package utils;
 
+import entity.LeaderboardEntry;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
@@ -14,34 +15,38 @@ import java.util.List;
 import java.util.Scanner;
 
 
-import entity.LeaderboardEntry;
 
-public class ReadData{
+/**Class for reading data from the txt file.
+* 
+*/
+public class ReadData {
     static SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd HH:mm:ss yyyy");
-    static List<LeaderboardEntry> list = new ArrayList();
+    static List<LeaderboardEntry> list = new ArrayList<LeaderboardEntry>();
     public static Scanner scanner;
-    public static List<LeaderboardEntry> readFromFile(String filePath){
-        Date date = null;  
 
-        try{
+    /**Class for reading data from the txt file.
+    * 
+    */    
+    public static List<LeaderboardEntry> readFromFile(String filePath) {
+        Date date = null;  
+        try {
             scanner = new Scanner(new FileInputStream(filePath));        
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             try {
                 FileWriter fileWriter = new FileWriter(new File(filePath));
                 fileWriter.write("");
+                fileWriter.close();
                 return new ArrayList<>();
             } catch (IOException e1) {
                 e1.printStackTrace();
             }
             e.printStackTrace();
         }
-        while(scanner.hasNext()){
+        while (scanner.hasNext()) {
             String[] data = scanner.nextLine().split("-");
-            try{
+            try {
                 date = dateFormat.parse(data[0]);
-            }
-            catch (ParseException e){
+            } catch (ParseException e) {
                 e.printStackTrace();
             }
             String userName = data[1];
@@ -52,11 +57,10 @@ public class ReadData{
         scanner.close();
         //sort the table from high to low
         Collections.sort(list, new Comparator<LeaderboardEntry>() {
-	    public int compare(LeaderboardEntry entryOne,
+            public int compare(LeaderboardEntry entryOne,
                             LeaderboardEntry entryTwo) {
-	    	//ascending order
-	    	return entryTwo.score - entryOne.score;
-        }            
+                return entryTwo.score - entryOne.score;
+            }
         });
         return list;          
     }

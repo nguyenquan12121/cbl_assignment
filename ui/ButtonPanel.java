@@ -1,17 +1,22 @@
 package ui;
+
 import java.awt.Color;
 import java.awt.GridLayout;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-class ButtonPanel extends JPanel{
+class ButtonPanel extends JPanel {
     JButton bounce;
-    public ButtonPanel(){
+
+    public ButtonPanel() {
         loadGraphics();
     }
-    public void loadGraphics(){
+
+    /** Setup the panel's objectss.
+    * 
+    */
+    public void loadGraphics() {
         //add button to the pane
         this.setLayout(new GridLayout(1, 1));
         bounce = new JButton();

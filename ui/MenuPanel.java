@@ -1,20 +1,27 @@
 package ui;
+
 import java.awt.BorderLayout;
 import java.awt.event.MouseListener;
 import javax.swing.JPanel;
-
 import main.GameState;
 
+/** Menu panel.
+* 
+*/
 public class MenuPanel extends JPanel {
     ButtonPanel bp;
     InformationPanel ip;
-    int score=0;
+    int score = 0;
     long display;
     PlayPanel ppMain;
-    long startTime = -1l;
+    long startTime = -1L;
     Double secondsLeft;
-    boolean launched=false;
-    public MenuPanel(PlayPanel pp){
+    boolean launched = false;
+
+    /** Constructor class.
+    * 
+    */
+    public MenuPanel(PlayPanel pp) {
         this.ppMain = pp;
         ip = new InformationPanel();
         bp = new ButtonPanel();
@@ -40,63 +47,72 @@ public class MenuPanel extends JPanel {
 
                 @Override
                 public void mousePressed(java.awt.event.MouseEvent arg0) {
-                    if(!launched){
-                    GameState.state = GameState.PREPARE;
-                    startTime = System.currentTimeMillis();
+                    if (!launched) {
+                        GameState.state = GameState.PREPARE;
+                        startTime = System.currentTimeMillis();
                     }
                     
                 }
 
                 @Override
                 public void mouseReleased(java.awt.event.MouseEvent arg0) {
-                    if(!launched){
-                    GameState.state = GameState.LAUNCHED;
-                    ppMain.setSpringTimer(false, display);
-                    ppMain.launchBall();
+                    if (!launched) {
+                        GameState.state = GameState.LAUNCHED;
+                        ppMain.setSpringTimer(false, display);
+                        ppMain.launchBall();
                     }
-                    launched=true;
+                    launched = true;
                 }
             }
 
         );
     }
 
-    public void resetPanel(){
+    /** Resets panel.
+    * 
+    */
+    public void resetPanel() {
         ip.force.setText("Force: 0%");
         ip.scoreLabel.setText("Score: 0");
         endLaunch();
     }
-    public void endLaunch(){
-        launched=false;
+
+    /** End Launch.
+    * 
+    */
+    public void endLaunch() {
+        launched = false;
     }
 
-    public void updateClock(){
+    /** Called when by game thread to update the % value on the side panel.
+    * 
+    */
+    public void updateClock() {
         display = System.currentTimeMillis() - startTime;
-        if (display<1100){
-        ip.force.setText("Force: "+ Long.toString((display/11))+ "%");
-        }
-        else if( display>1100){
-            ip.force.setText("Force: "+ 100 + "%");
+        if (display < 1100) {
+            ip.force.setText("Force: " + Long.toString((display / 11)) + "%");
+        } else if (display > 1100) {
+            ip.force.setText("Force: " + 100 + "%");
         }
     }
 
-    public void updateTransitionTime(Long startTime, Long currTime){
+    /** Used after each round to init a small "break session".
+    * 
+    */
+    public void updateTransitionTime(Long startTime, Long currTime) {
         String[] info = ip.currRoundLabel.getText().split(" ");
         int roundNumber = Integer.parseInt(info[2]);
-        if (roundNumber ==3){
-            if (ip.isBreakTime(startTime, currTime)){
+        if (roundNumber == 3) {
+            if (ip.isBreakTime(startTime, currTime)) {
                 ip.delayTillEndScreen(startTime, currTime);
-            }
-            else{
+            } else {
                 GameState.state = GameState.END;
             }
             
-        }
-        else{
-            if (ip.isBreakTime(startTime, currTime)){
+        } else {
+            if (ip.isBreakTime(startTime, currTime)) {
                 ip.updateBreakStatus(startTime, currTime);
-            }
-            else{
+            } else {
                 ip.updateRound();
                 ppMain.generateTarget();
                 ip.removeBreakStatus();
@@ -106,7 +122,10 @@ public class MenuPanel extends JPanel {
         }
     }
 
-    public int getFinalScore(){
+    /** Returns final score.
+    * 
+    */
+    public int getFinalScore() {
         String[] info = ip.totalScoreLabel.getText().split(" ");
         int totalScore = Integer.parseInt(info[2]);        
         return totalScore;

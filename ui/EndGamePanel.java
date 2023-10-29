@@ -1,10 +1,11 @@
 package ui;
+
+import entity.LeaderboardEntry;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.util.List;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -12,23 +13,29 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
-
-import entity.LeaderboardEntry;
 import utils.WriteData;
 
-class EndGamePanel extends JPanel{
+/** Endgame panel class which displays the user final score and prompts them to save their record.
+* 
+*/
+class EndGamePanel extends JPanel {
     static int clicked = 0;
     EndGameLeaderboardPanel endGameLeaderboard;
     int highScore;
     LeaderboardEntry entry;
     String filePath = "leaderboard.txt";
     JFrame frame;
-    public EndGamePanel(LeaderboardEntry entry, EndGameLeaderboardPanel eglp){
+    JLabel scoreLabel;
+
+    /** Constructor class.
+    * 
+    */
+    public EndGamePanel(LeaderboardEntry entry, EndGameLeaderboardPanel eglp) {
         this.endGameLeaderboard = eglp;
         this.setBorder(new EmptyBorder(100, 50, 100, 50));
         this.entry = entry;
         this.highScore = entry.score;
-        JLabel scoreLabel = new JLabel();
+        scoreLabel = new JLabel();
         this.setLayout(new FlowLayout(FlowLayout.CENTER));
         JButton save = new JButton();
         save.setIcon(new ImageIcon("images/Leaderboard.png")); 
@@ -46,15 +53,15 @@ class EndGamePanel extends JPanel{
         scoreLabel.setHorizontalAlignment(JLabel.CENTER);        
         scoreLabel.setForeground(Color.GREEN);
         scoreLabel.setFont(new Font(Font.DIALOG, Font.PLAIN, 18));
-        scoreLabel.setText("CONGRATULATIONS! YOUR HIGH SCORE IS "+ this.highScore);
+        scoreLabel.setText("CONGRATULATIONS! YOUR HIGH SCORE IS " + this.highScore);
         this.add(scoreLabel);
         this.add(userName);
         this.add(save);
         this.add(quit);
         this.setOpaque(false);
-        this.setLayout(new GridLayout(5, 1, 20,30));  
-        save.addActionListener(e ->{
-            if (clicked==0){
+        this.setLayout(new GridLayout(5, 1, 20, 30));
+        save.addActionListener(e -> {
+            if (clicked == 0) {
                 entry.updateUsername(userName.getText());
                 this.endGameLeaderboard.updateRecord(entry);
                 clicked++;
@@ -64,10 +71,18 @@ class EndGamePanel extends JPanel{
         });
         quit.addActionListener(e -> System.exit(-1));           
     }
-    public void addFrame(JFrame frame){
+
+    /** add frame to the current panel to be disposed.
+    * 
+    */    
+    public void addFrame(JFrame frame) {
         this.frame = frame;
     }
-    public void addEntry(LeaderboardEntry entry){
+
+    /** add leaderboard entry.
+    * 
+    */    
+    public void addEntry(LeaderboardEntry entry) {
         this.entry = entry;
     }
 }

@@ -1,13 +1,15 @@
 package entity;
+
 import java.io.InputStream;
-import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
-import javax.sound.sampled.DataLine;
 import javax.sound.sampled.LineEvent;
 import javax.sound.sampled.LineListener;
 
+/** Testing sound methods.
+ * 
+ */
 public class Sound implements LineListener {
 
     boolean isPlaybackCompleted;
@@ -23,11 +25,15 @@ public class Sound implements LineListener {
         }
     }
 
-    public static void playMain(){
+    /** Not implemented.
+     * 
+     */
+    public static void playMain() {
         try {
-            InputStream menu= Sound.class.getClassLoader().getResourceAsStream("sounds/menu-sound.wav");
+            InputStream menu = Sound.class.getClassLoader()
+                    .getResourceAsStream("sounds/menu-sound.wav");
             AudioInputStream audioStream = AudioSystem.getAudioInputStream(menu);
-        Clip audioClip = AudioSystem.getClip();
+            Clip audioClip = AudioSystem.getClip();
             Sound sound = new Sound(); 
             audioClip.addLineListener(sound);
             audioClip.open(audioStream);
@@ -44,7 +50,5 @@ public class Sound implements LineListener {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-    
-}
+    }
 }
