@@ -162,7 +162,7 @@ public class PlayPanel extends JPanel  {
     public void reset(){
         ballY = 496;
         springX=500; 
-        springY=575;
+        springY=580;
         springWidth = 30;
         springcompression=0;
         springcompression1=0;
