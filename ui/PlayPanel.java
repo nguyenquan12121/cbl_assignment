@@ -152,6 +152,10 @@ public class PlayPanel extends JPanel  {
         springX=500; 
         springY=575;
         springWidth = 30;
+        springcompression=0;
+        springcompression1=0;
+        springcompression2=0;
+        springcompression3=0;
     }
 
     //Called with the reset button
