@@ -1,22 +1,26 @@
 package ui;
+import java.awt.Color;
+import java.awt.GridLayout;
+
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
 class ButtonPanel extends JPanel{
-    JButton bounce,stop, reset, next;
+    JButton bounce;
     public ButtonPanel(){
         loadGraphics();
     }
     public void loadGraphics(){
-        // this.setLayout(new GridLayout(2, 2,0,0));
         //add button to the pane
-        bounce = new JButton("Bounce!");
-        stop = new JButton("Stop!");
-        reset = new JButton("Reset!");
-        next = new JButton("Next!");
+        this.setLayout(new GridLayout(1, 1));
+        bounce = new JButton();
+        bounce.setIcon(new ImageIcon("images/Play_Button3.png")); 
+        bounce.setBorder(null);
+        bounce.setOpaque(false);
+        bounce.setContentAreaFilled(false);
+        bounce.setBorderPainted(false);        
         this.add(bounce);
-        // this.add(stop);
-        // this.add(reset);
-        // this.add(next);
+        this.setBackground(Color.BLACK);
     }
 }

@@ -1,6 +1,9 @@
 package utils;
 
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -14,7 +17,7 @@ import java.util.Scanner;
 import entity.LeaderboardEntry;
 
 public class ReadData{
-    static SimpleDateFormat dateFormat = new SimpleDateFormat("E MMM dd HH:mm:ss zzz yyyy");
+    static SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd HH:mm:ss yyyy");
     static List<LeaderboardEntry> list = new ArrayList();
     public static Scanner scanner;
     public static List<LeaderboardEntry> readFromFile(String filePath){
@@ -24,6 +27,13 @@ public class ReadData{
             scanner = new Scanner(new FileInputStream(filePath));        
         }
         catch(Exception e){
+            try {
+                FileWriter fileWriter = new FileWriter(new File(filePath));
+                fileWriter.write("");
+                return new ArrayList<>();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
             e.printStackTrace();
         }
         while(scanner.hasNext()){

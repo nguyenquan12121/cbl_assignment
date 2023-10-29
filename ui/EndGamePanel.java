@@ -2,10 +2,10 @@ package ui;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.Frame;
 import java.awt.GridLayout;
 import java.util.List;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -30,20 +30,29 @@ class EndGamePanel extends JPanel{
         this.highScore = entry.score;
         JLabel scoreLabel = new JLabel();
         this.setLayout(new FlowLayout(FlowLayout.CENTER));
-        JButton save = new JButton("Save To Leaderboard");
-        JButton quit = new JButton("Quit To System");
+        JButton save = new JButton();
+        save.setIcon(new ImageIcon("images/Leaderboard.png")); 
+        save.setBorder(null);
+        save.setOpaque(false);
+        save.setContentAreaFilled(false);
+        save.setBorderPainted(false);        
+        JButton quit = new JButton();
+        quit.setIcon(new ImageIcon("images/Exit_Button.png")); 
+        quit.setBorder(null);
+        quit.setOpaque(false);
+        quit.setContentAreaFilled(false);
+        quit.setBorderPainted(false); 
         JTextField userName = new JTextField();
         scoreLabel.setHorizontalAlignment(JLabel.CENTER);        
-        scoreLabel.setForeground(Color.WHITE);
+        scoreLabel.setForeground(Color.GREEN);
         scoreLabel.setFont(new Font(Font.DIALOG, Font.PLAIN, 18));
         scoreLabel.setText("CONGRATULATIONS! YOUR HIGH SCORE IS "+ this.highScore);
         this.add(scoreLabel);
         this.add(userName);
         this.add(save);
         this.add(quit);
-        this.setLayout(new GridLayout(5, 1, 20,60));  
-        this.setBackground(Color.red);
-        System.out.println(this.endGameLeaderboard.recordList.size());
+        this.setOpaque(false);
+        this.setLayout(new GridLayout(5, 1, 20,30));  
         save.addActionListener(e ->{
             if (clicked==0){
                 entry.updateUsername(userName.getText());

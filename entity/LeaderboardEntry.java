@@ -1,10 +1,12 @@
 package entity;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class LeaderboardEntry{
     public Integer score;
     public String userName;
     public Date date;
+    SimpleDateFormat sdf = new SimpleDateFormat("MMM dd HH:mm:ss yyyy");
 
     public LeaderboardEntry(Integer score){
         this.score = score;
@@ -23,7 +25,7 @@ public class LeaderboardEntry{
 
     @Override
     public String toString(){
-        return this.date + "-" + this.userName + "-"+this.score;
+        return sdf.format(this.date) + "-" + this.userName + "-"+this.score;
     }
     
 }

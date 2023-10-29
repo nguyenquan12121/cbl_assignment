@@ -5,7 +5,6 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Toolkit;
 import java.awt.geom.Line2D;
-import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
 import java.io.File;
@@ -125,7 +124,7 @@ public class PlayPanel extends JPanel  {
 
     public void drawTarget(Graphics2D g2d, int height){
         g2d.setStroke(new BasicStroke(10));
-        g2d.setColor(Color.RED);
+        g2d.setColor(Color.BLUE);
         g2d.drawOval(545,heightTarget,10,10);
     }
 
@@ -192,24 +191,24 @@ public class PlayPanel extends JPanel  {
 
     //Handle Springs coordinates
     public void compressSpring(){
-     if(counter%10==0){
-        if(springY+springcompression3<610){
-        //Ball and spring move at the same speed
-        springcompression+=4;
-        springcompression1+=3;
-        springcompression2+=2;
-        springcompression3+=1;
-        springY += springFluc; ///so they can get closer // add it getting shorter 
-        if (springWidth>3){
-            springWidth--;
+        if(counter%10==0){
+            if(springY+springcompression3<610){
+            //Ball and spring move at the same speed
+            springcompression+=4;
+            springcompression1+=3;
+            springcompression2+=2;
+            springcompression3+=1;
+            springY += springFluc; ///so they can get closer // add it getting shorter 
+            if (springWidth>3){
+                springWidth--;
+            }
+            ballY =springY+springcompression-70;
+            if(springFluc>1){
+            springFluc--;
+            }
         }
-        ballY =springY+springcompression-70;
-        if(springFluc>1){
-        springFluc--;
-        }
-    }
 
-}
+    }
     counter++;
     }
 

@@ -1,6 +1,7 @@
 package ui;
 import java.awt.Color;
 import java.awt.GridLayout;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -10,12 +11,14 @@ import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
 
 import entity.LeaderboardEntry;
 
 class EndGameLeaderboardPanel extends JPanel{
+    SimpleDateFormat sdf = new SimpleDateFormat("MMM dd HH:mm:ss yyyy");    
     List<LeaderboardEntry> recordList = new ArrayList<>();
     JTable jTable;
 
@@ -23,7 +26,7 @@ class EndGameLeaderboardPanel extends JPanel{
         //rows and columns
         this.setLayout(new GridLayout(1, 1));
         this.setBorder(new EmptyBorder(100, 50, 100, 50));
-        this.setBackground(Color.RED);
+        this.setOpaque(false);
 
     }
     //Game calls EndGameContainer which will then call this method to get the list
@@ -66,6 +69,13 @@ class EndGameLeaderboardPanel extends JPanel{
         DefaultTableModel contactTableModel = (DefaultTableModel) jTable.getModel();
         contactTableModel.setColumnIdentifiers(colName);
         jTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        TableColumnModel columnModel = jTable.getColumnModel();
+
+        // Get the column you want to resize (e.g., the second column)
+        TableColumn column = columnModel.getColumn(0);
+        column.setPreferredWidth(150);
+
+        // Set the preferred width for the column
         return jTable;
     }
 
@@ -74,7 +84,7 @@ class EndGameLeaderboardPanel extends JPanel{
         DefaultTableModel tableModel = (DefaultTableModel) jTable.getModel();
         for (int i = 0; i <recordList.size(); i++) {
             String[] data = new String[3];
-            data[0] = recordList.get(i).date.toString();
+            data[0] = sdf.format(recordList.get(i).date);
             data[1] = recordList.get(i).userName;
             data[2] = String.valueOf(recordList.get(i).score);
             tableModel.addRow(data);
