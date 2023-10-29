@@ -1,28 +1,41 @@
 package ui;
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import javax.swing.JFrame;
 
 
-
+/** game frame.
+ * 
+ */
 public class GameContainer {
     PlayPanel pp;
     MenuPanel mainButtonPanel;
     JFrame frame;
-    public GameContainer(PlayPanel pp, MenuPanel mp){
+
+    /**constructor.
+     * 
+     */    
+    public GameContainer(PlayPanel pp, MenuPanel mp) {
         frame = new JFrame("Game");
         this.pp = pp;
         this.mainButtonPanel = mp;
     }
 
-    public void addComponentsToPane (JFrame frame)  {
+    /** add panels to frame.
+     * 
+     */
+    public void addComponentsToPane(JFrame frame) {
         //Add menu panel to the east
-        frame.add(mainButtonPanel, BorderLayout.EAST) ;
+        frame.add(mainButtonPanel, BorderLayout.EAST);
 
         //Allow buttons inside the menu panel to interact with the play panel
         frame.add(pp);
     }
 
+    /**display frame.
+     * 
+     */
     public void createAndShowGUI() {
 
         //Create and set up the window.
@@ -33,7 +46,8 @@ public class GameContainer {
         frame.pack();
         frame.setVisible(true);
     }
-    public void exitPanel(){
+
+    public void exitPanel() {
         this.frame.dispose();
     }
 }

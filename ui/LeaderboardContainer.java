@@ -1,20 +1,29 @@
 package ui;
-import java.awt.image.BufferedImage;
-import java.util.List;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
 
 import entity.LeaderboardEntry;
+import java.awt.image.BufferedImage;
+import java.util.List;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
 import utils.ReadData;
 
 
-
+/**frame for leaderboard.
+ * 
+ */
 public class LeaderboardContainer extends JPanel {
     BufferedImage backgroundImage;
-    public LeaderboardContainer(){
+
+    /**constructor.
+     * 
+     */    
+    public LeaderboardContainer() {
     }
-    public static void addComponentsToPane (JFrame frame)  {
+    
+    /**add panels to frame.
+     * 
+     */    
+    public static void addComponentsToPane(JFrame frame) {
         LeaderboardPanel lp = new LeaderboardPanel(frame);
         List<LeaderboardEntry> list = ReadData.readFromFile("leaderboard.txt");
         lp.addLeaderboard(list);
@@ -23,6 +32,9 @@ public class LeaderboardContainer extends JPanel {
         list.clear();
     }
 
+    /**update score.
+     * 
+     */
     public static void createAndShowGUI() {
 
         //Create and set up the window.

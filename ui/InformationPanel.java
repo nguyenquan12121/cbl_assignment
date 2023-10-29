@@ -1,4 +1,5 @@
 package ui;
+
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -7,34 +8,44 @@ import java.awt.GridLayout;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-
 import javax.imageio.ImageIO;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-//Class to manage score, rounds, force display
-class InformationPanel extends JPanel{
-    int score, totalScore, currRound =1;
-    BufferedImage backgroundImage;
-    JLabel force, scoreLabel, totalScoreLabel, currRoundLabel, roundInfo;
 
-    public InformationPanel(){
+/**Class to manage score, rounds, force display.
+ * 
+ */
+class InformationPanel extends JPanel {
+    int score; 
+    int totalScore; 
+    int currRound = 1;
+    BufferedImage backgroundImage;
+    JLabel force; 
+    JLabel scoreLabel; 
+    JLabel totalScoreLabel;
+    JLabel currRoundLabel; 
+    JLabel roundInfo;
+
+    public InformationPanel() {
         loadGraphics();
     }
 
-    public void loadGraphics(){
+    /**load graphics.
+     * 
+     */
+    public void loadGraphics() {
         String backgroundPath = "images/background_score.jpg";
-        try{
+        try {
             File backFile = new File(backgroundPath);
             backgroundImage = ImageIO.read(backFile);
 
-        }
-        catch(IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }       
         force = new JLabel("Force: 0 N");
         scoreLabel = new JLabel("Score: 0");        
         totalScoreLabel = new JLabel("Total Score: 0");        
-        currRoundLabel = new JLabel("Current Round: "+Integer.toString(currRound));
+        currRoundLabel = new JLabel("Current Round: " + Integer.toString(currRound));
         roundInfo = new JLabel();
         //Center the text
         force.setHorizontalAlignment(JLabel.CENTER);        
@@ -52,7 +63,7 @@ class InformationPanel extends JPanel{
         roundInfo.setHorizontalAlignment(JLabel.CENTER);        
         roundInfo.setForeground(Color.WHITE);
         roundInfo.setFont(new Font(Font.DIALOG, Font.PLAIN, 11));
-        this.setLayout(new GridLayout(5, 1, 0,-300));  
+        this.setLayout(new GridLayout(5, 1, 0, -300));  
         this.add(currRoundLabel);
         this.add(totalScoreLabel);
         this.add(scoreLabel);         
@@ -67,44 +78,60 @@ class InformationPanel extends JPanel{
         drawBackground(g2d);
     }
 
-    public void drawBackground(Graphics2D g2d){
-        g2d.drawImage(backgroundImage, 0, 0,200,800, null);
+    public void drawBackground(Graphics2D g2d) {
+        g2d.drawImage(backgroundImage, 0, 0, 200, 800, null);
     }
 
-    public void updateCurrScore(int score){
+    /**update score.
+     * 
+     */
+    public void updateCurrScore(int score) {
         this.score = score;
-        this.scoreLabel.setText("Score: "+ Integer.toString(this.score));
+        this.scoreLabel.setText("Score: " + Integer.toString(this.score));
         updateTotalScore();
     }
 
-    public void updateTotalScore(){
+    /**update score.
+     * 
+     */
+    public void updateTotalScore() {
         totalScore += score;
         this.totalScoreLabel.setText("Total Score: " + Integer.toString(totalScore));
     }
-    public void updateRound(){
+
+    /**update round.
+     * 
+     */
+    public void updateRound() {
         this.currRound++;
-        this.currRoundLabel.setText("Current Round: "+ currRound);
+        this.currRoundLabel.setText("Current Round: " + currRound);
     }
 
-    public boolean isBreakTime(Long startTime, Long endTime){
-        return ((endTime-startTime)/1000000<=2000);
+    public boolean isBreakTime(Long startTime, Long endTime) {
+        return ((endTime - startTime) / 1000000 <= 2000);
     }
 
-    public void updateBreakStatus(Long startTime, Long endTime){
-        int timeLeftD = Math.round((endTime-startTime)/1000000000);
+    /**update break status.
+     * 
+     */
+    public void updateBreakStatus(Long startTime, Long endTime) {
+        int timeLeftD = Math.round((endTime - startTime) / 1000000000);
         Integer timeLeft = 2 - timeLeftD;
         this.roundInfo.setForeground(Color.GREEN);
-        this.roundInfo.setText("Next round starts in: "+timeLeft);
+        this.roundInfo.setText("Next round starts in: " + timeLeft);
     }
 
-    public void removeBreakStatus(){
+    public void removeBreakStatus() {
         this.roundInfo.setText("");
     }
 
-    public void delayTillEndScreen(Long startTime, Long endTime){
-        int timeLeftD = Math.round((endTime-startTime)/1000000000);
+    /**update delay.
+     * 
+     */
+    public void delayTillEndScreen(Long startTime, Long endTime) {
+        int timeLeftD = Math.round((endTime - startTime) / 1000000000);
         Integer timeLeft = 2 - timeLeftD;
         this.roundInfo.setForeground(Color.GREEN);
-        this.roundInfo.setText("Game finishes in: "+timeLeft);
+        this.roundInfo.setText("Game finishes in: " + timeLeft);
     }
 }

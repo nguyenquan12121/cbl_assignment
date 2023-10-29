@@ -1,18 +1,25 @@
 package ui;
-import javax.swing.*;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
-import java.io.File;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-
 import main.Game;
 
+
+/**update score.
+ * 
+ */
 
 class StartingPanel extends JPanel {
     private BufferedImage backgroundImage;
 
+    /**update score.
+     * 
+     */
     public StartingPanel(Frame frame) {
         String backgroundPath = "images/menu_background.jpg";
         try {
@@ -55,13 +62,13 @@ class StartingPanel extends JPanel {
         this.add(play);
         this.add(leaderboard);
         this.add(exit);
-       //this.setLayout(new GridLayout(4, 1, 1, 1));
+        //this.setLayout(new GridLayout(4, 1, 1, 1));
         play.addActionListener(e -> {
             frame.dispose();
             new Game();
         });
 
-        leaderboard.addActionListener(e->{
+        leaderboard.addActionListener(e -> {
             frame.dispose();
             LeaderboardContainer.createAndShowGUI();
         });
