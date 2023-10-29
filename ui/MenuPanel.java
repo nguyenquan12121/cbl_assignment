@@ -40,10 +40,10 @@ public class MenuPanel extends JPanel {
 
                 @Override
                 public void mousePressed(java.awt.event.MouseEvent arg0) {
-                     if(!launched){
+                    if(!launched){
                     GameState.state = GameState.PREPARE;
                     startTime = System.currentTimeMillis();
-                     }
+                    }
                     
                 }
 

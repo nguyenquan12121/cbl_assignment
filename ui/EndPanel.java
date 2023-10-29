@@ -13,7 +13,7 @@ import javax.swing.JPanel;
 public class EndPanel extends JPanel{
     BufferedImage backgroundImage;
     public EndPanel(EndGamePanel egp, EndGameLeaderboardPanel eglp) {
-        String backgroundPath = "images/menu_background.jpg";
+        String backgroundPath = "images/background_score.jpg";
         try {
             File backFile = new File(backgroundPath);
             backgroundImage = ImageIO.read(backFile);
@@ -32,6 +32,6 @@ public class EndPanel extends JPanel{
     }
 
     public void drawBackground(Graphics2D g2d) {
-        g2d.drawImage(backgroundImage, 0, 0, 1200, 1200, null);
+        g2d.drawImage(backgroundImage, 0, 0, 1200, 800, null);
     }
 }

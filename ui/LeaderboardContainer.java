@@ -27,7 +27,6 @@ public class LeaderboardContainer extends JPanel {
 
         //Create and set up the window.
         JFrame frame = new JFrame("Leaderboard");
-        frame.setSize(1280, 720);
         frame.setLocationRelativeTo(null);
         //Set up content pane
         addComponentsToPane(frame);

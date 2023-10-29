@@ -1,37 +1,65 @@
 package ui;
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.GridLayout;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
 import entity.LeaderboardEntry;
 
 class LeaderboardPanel extends JPanel{
+    private BufferedImage backgroundImage;
     List<LeaderboardEntry> recordList = new ArrayList<>();
     JTable jTable;
 
     public LeaderboardPanel(JFrame frame){
+        String backgroundPath = "images/menu_background.jpg";
+        try {
+            File backFile = new File(backgroundPath);
+            backgroundImage = ImageIO.read(backFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         //rows and columns
+        this.setLayout(new BorderLayout());
         JLabel label = new JLabel("LEADERBOARD");
-        JButton back = new JButton("BACK");
-        // this.setLayout(new GridLayout(1, 1);
+        label.setFont(new Font("Arial", Font.BOLD, 26));
+        label.setHorizontalAlignment(SwingConstants.CENTER);
+        label.setForeground(Color.GREEN);        
+        JButton back = new JButton();
+        back.setIcon(new ImageIcon("images/Exit_Button.png")); 
+        back.setBorder(null);
+        back.setOpaque(false);
+        back.setContentAreaFilled(false);
+        back.setBorderPainted(false);        
         this.setBorder(new EmptyBorder(100, 50, 100, 50));
         this.setBackground(Color.RED);
-        this.add(label);
-        this.add(back);
+        this.add(label, BorderLayout.NORTH);
+        this.add(back, BorderLayout.SOUTH);
         back.addActionListener(e->{
             frame.dispose();
             StartingContainer.createAndShowGUI();
         });
+        this.setPreferredSize(new Dimension(1000, 720));
 
     }
     //Game calls EndGameContainer which will then call this method to get the list
@@ -43,7 +71,7 @@ class LeaderboardPanel extends JPanel{
         jTable = getJTable();
         setUpTableData();
         jTable.setRowHeight(40);
-        this.add(jTable);        
+        this.add(jTable, BorderLayout.CENTER);        
     }
 
     //init jtable
@@ -79,4 +107,15 @@ class LeaderboardPanel extends JPanel{
         DefaultTableModel tableModel = (DefaultTableModel) jTable.getModel();
         tableModel.setRowCount(0);
     }
+    @Override
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        Graphics2D g2d = (Graphics2D) g;
+        drawBackground(g2d);
+    }
+
+    public void drawBackground(Graphics2D g2d) {
+        g2d.drawImage(backgroundImage, 0, 0, 1200, 1200, null);
+    }
 }
+

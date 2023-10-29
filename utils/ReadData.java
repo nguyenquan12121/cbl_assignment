@@ -17,7 +17,7 @@ import java.util.Scanner;
 import entity.LeaderboardEntry;
 
 public class ReadData{
-    static SimpleDateFormat dateFormat = new SimpleDateFormat("E MMM dd HH:mm:ss zzz yyyy");
+    static SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd HH:mm:ss yyyy");
     static List<LeaderboardEntry> list = new ArrayList();
     public static Scanner scanner;
     public static List<LeaderboardEntry> readFromFile(String filePath){

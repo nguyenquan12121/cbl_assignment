@@ -2,15 +2,9 @@ package ui;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.GridLayout;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.List;
 
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -50,7 +44,7 @@ class EndGamePanel extends JPanel{
         quit.setBorderPainted(false); 
         JTextField userName = new JTextField();
         scoreLabel.setHorizontalAlignment(JLabel.CENTER);        
-        scoreLabel.setForeground(Color.WHITE);
+        scoreLabel.setForeground(Color.GREEN);
         scoreLabel.setFont(new Font(Font.DIALOG, Font.PLAIN, 18));
         scoreLabel.setText("CONGRATULATIONS! YOUR HIGH SCORE IS "+ this.highScore);
         this.add(scoreLabel);

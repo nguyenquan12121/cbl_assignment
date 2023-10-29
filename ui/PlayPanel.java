@@ -5,7 +5,6 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Toolkit;
 import java.awt.geom.Line2D;
-import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
 import java.io.File;
@@ -192,7 +191,7 @@ public class PlayPanel extends JPanel  {
 
     //Handle Springs coordinates
     public void compressSpring(){
-     if(counter%10==0){
+    if(counter%10==0){
         if(springY+springcompression3<610){
         //Ball and spring move at the same speed
         springcompression+=4;
